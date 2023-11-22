@@ -32,10 +32,10 @@ const CropPrediction = () => {
         </h5>
       </div>
       <div className="flex flex-col gap-8 mt-[41px] mb-[64px]">
-        <TextInput label="Crop Type" placeholder="Rice" type="text" />
-        <TextInput label="Location" placeholder="Nigeria" type="text" />
-        <TextInput label="Soil PH" placeholder="6.5029999999" type="text" />
-        <TextInput
+        <TextInput onChange={() => ""} label="Crop Type" placeholder="Rice" type="text" />
+        <TextInput onChange={() => ""} label="Location" placeholder="Nigeria" type="text" />
+        <TextInput onChange={() => ""} label="Soil PH" placeholder="6.5029999999" type="text" />
+        <TextInput onChange={() => ""}
           label="Water availability"
           placeholder="202.5029999999"
           type="text"
