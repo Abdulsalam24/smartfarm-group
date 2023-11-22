@@ -72,7 +72,7 @@ const HomePage = () => {
           <h3>Crop Prediction</h3>
           <div>
             <div className="flex flex-col items-center">
-              <Image src={emptyNote} alt="emptyNote" />
+              {/* <Image src={emptyNote} alt="emptyNote" /> */}
               <div className="mt-4 mb-[52px] text-center">
                 <h3 className="text-[18px]">No prediction</h3>
                 <h5 className="text-[#6F6F6F]">
