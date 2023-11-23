@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import sunCloud from "../../assets/icons/sun-cloud.svg";
-// import emptyNote from "../../assets/icons/emptyState.svg";
 import plus from "../../assets/icons/plus.svg";
 import Link from "next/link";
 import dummy from "../../assets/img/dummy-pic.png";
