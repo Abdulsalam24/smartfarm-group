@@ -20,7 +20,6 @@ const Register = () => {
     password: "",
   });
 
-
   const onChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
@@ -29,7 +28,6 @@ const Register = () => {
     });
   };
 
-  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const res = await registerAction(formdata);

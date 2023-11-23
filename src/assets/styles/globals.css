@@ -54,17 +54,21 @@ p {
   @apply text-sm md:text-[20px];
 }
 
-button:hover{
+button:hover {
   opacity: 0.7;
 }
 
-
-p:has(span) , p:has(span) span {
+p:has(span),
+p:has(span) span {
   @apply text-sm md:text-[16px];
 }
 
 button {
   @apply text-sm md:text-[18px];
+}
+
+li {
+  @apply text-sm;
 }
 
 input {
@@ -86,8 +90,12 @@ nav ul li {
   box-shadow: 0px 4px 10px 0px #0000001f;
 }
 .wrapper {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: auto;
+}
+
+.home-page p{
+  @apply md:text-[18px] 
 }
 
 .modal {

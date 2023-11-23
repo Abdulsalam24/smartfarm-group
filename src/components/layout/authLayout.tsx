@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useEffect } from 'react'
 import bgAuthImg from "../../assets/img/bg-auth.png";
 import whiteLogo from "../../assets/img/white-logo.svg";
 
-const AuthLayout = ({children} : {children : React.ReactNode}) => {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-      <div className="items-center md:flex md:px-0 md:pb-0 auth-layout">
+      <div className="items-center md:flex md:px-0 md:pb-0 auth-layout max-w-[1400px] mx-auto">
         <div className="md:w-[50%] relative hidden md:block">
           <Image
             src={bgAuthImg}

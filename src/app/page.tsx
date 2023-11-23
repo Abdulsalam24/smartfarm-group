@@ -1,6 +1,6 @@
 import { NavBar } from "@/components/ui/nav";
-import Home from "@/features/HomePage";
-import Footer from "@/features/HomePage/component/footer";
+import Home from "@/features/homepage";
+import Footer from "@/features/homepage/component/footer";
 
 export default function Page() {
   return (

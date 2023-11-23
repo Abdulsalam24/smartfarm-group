@@ -41,6 +41,7 @@ const TextInput: React.FC<{
           <input
             className="border border-[#161616] mt-[9px] border-x-0 border-t-0 w-full"
             type="text"
+            name={name}
             placeholder="*********"
             onChange={onChange}
           />

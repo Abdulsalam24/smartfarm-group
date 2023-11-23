@@ -5,19 +5,13 @@ import failedIcon from "../../../assets/icons/failed-icon.svg";
 import Image from "next/image";
 import Button from "../Button";
 
-const Modal = ({
-  isOpen,
-  actiontext1,
-  actiontext2,
-  actionButton1,
-  actionButton2,
-  heading,
-  text,
-  onClose,
-  modalImg,
-  variant,
-}: any) => {
-  const active = false;
+const Modal = ({ isOpen, onClose }: any) => {
+  const active = "";
+
+  const history = {
+    isDfault: true,
+    predict: true,
+  };
 
   return (
     <>
@@ -29,7 +23,7 @@ const Modal = ({
               e.stopPropagation();
             }}
           >
-            {active ? (
+            {history.isDfault ? (
               <>
                 <div className="items-center">
                   <Image src={successIcon} alt="successIcon" />
@@ -85,7 +79,7 @@ const Modal = ({
 
             <div className="items-center">
               <Button
-                text="Proceed to Plant"
+                text={history.predict ? "Download Result" : "Proceed to Plant"}
                 btnStyle="px-4 py-2"
                 color="text-white"
                 bgColor="bg-[#225C2B]"

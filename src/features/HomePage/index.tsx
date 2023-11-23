@@ -117,7 +117,11 @@ const Home = () => {
                 className="bg-green-300 flex p-[18px] text-white rounded-[10px] justify-between items-center md:py-[30px] md:px-[20px]"
               >
                 <h4 className="font-medium">{item.label}</h4>
-                <Image src={plus} alt="main icon" className="md:w-[32px] md:h-[32px]"/>
+                <Image
+                  src={plus}
+                  alt="main icon"
+                  className="md:w-[32px] md:h-[32px]"
+                />
               </div>
             ))}
           </div>

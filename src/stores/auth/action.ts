@@ -20,3 +20,19 @@ export const registerAction = async (registerInfo: any): Promise<any> => {
     };
   }
 };
+
+export const loginAction = async (loginInfo: any): Promise<any> => {
+  try {
+    const { data } = await registerApi(loginInfo);
+    toaster(data.description, "success");
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      redirect: handleError(error),
+    };
+  }
+};
