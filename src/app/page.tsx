@@ -1,13 +1,13 @@
-// import { NavBar } from "@/components/ui/nav";
-// import Home from "@/features/homepage";
-// import Footer from "@/features/homepage/component/footer";
+import { NavBar } from "@/components/ui/nav";
+import Home from "@/features/home";
+import Footer from "@/features/home/component/footer";
 
 export default function Page() {
   return (
     <main>
-      {/* <NavBar />
+      <NavBar />
       <Home />
-      <Footer /> */}
+      <Footer />
     </main>
   );
 }
