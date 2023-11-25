@@ -10,6 +10,7 @@ import AuthLayout from "@/components/layout/authLayout";
 import { registerAction } from "@/stores/auth/action";
 
 const Register = () => {
+  
   const router = useRouter();
 
   const [formdata, setFormData] = useState({
@@ -32,11 +33,9 @@ const Register = () => {
     e.preventDefault();
     const res = await registerAction(formdata);
     if (res.success) {
-      router.push("/homepage");
+      router.push("/login");
     }
   };
-
-  console.log(formdata, "formdatformdataformdataformdataformdataa");
 
   return (
     <AuthLayout>

@@ -26,6 +26,8 @@ h2 {
 h3 {
   font-family: "Manrope", sans-serif;
   font-size: 16px;
+
+  @apply text-base md:text-[18px];
 }
 
 h4 {
@@ -37,7 +39,7 @@ h5 {
 }
 
 span {
-  @apply text-[10px] md:text-[24px];
+  @apply text-[10px] md:text-[14px];
 }
 
 h1,
@@ -51,7 +53,7 @@ h4 {
 p {
   font-family: "Manrope", sans-serif;
   color: #161616;
-  @apply text-sm md:text-[20px];
+  @apply text-sm md:text-[16px];
 }
 
 button:hover {
@@ -90,12 +92,34 @@ nav ul li {
   box-shadow: 0px 4px 10px 0px #0000001f;
 }
 .wrapper {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: auto;
 }
 
-.home-page p{
-  @apply md:text-[18px] 
+.home-page p {
+  @apply md:text-[16px];
+}
+
+.home p,nav p {
+  @apply md:text-[18px];
+}
+
+.history span{
+  @apply text-[14px]
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: 1s;
+}
+
+
+.content.show {
+  height: auto;
+  max-height: 999px;
+  overflow: hidden;
+  transition: 1s;
 }
 
 .modal {
@@ -111,6 +135,11 @@ nav ul li {
   backdrop-filter: blur(5px);
 }
 
+.custom-modal-container {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+}
+
 .custom-modal {
   position: relative;
   gap: 10px;
@@ -120,8 +149,8 @@ nav ul li {
     0px 20px 25px -5px rgba(16, 24, 40, 0.1);
   min-width: 300px;
   width: 90%;
-  max-width: 363px;
   margin: auto;
+  @apply max-w-[363px] md:max-w-[500px];
 }
 
 /* VERTICAL / DEFAULT */
@@ -171,4 +200,36 @@ nav ul li {
 .custom-modal .text p {
   margin: 8px 0 12px 0;
   font-size: 14px;
+}
+
+.css-y8ay40-MuiTableCell-root {
+  @apply bg-red-500 !important;
+}
+
+.css-1q1u3t4-MuiTableRow-root > tr {
+  @apply bg-red-500 !important;
+}
+thead {
+  @apply bg-red-500 !important;
+}
+
+.table-paginate p {
+  @apply text-base text-[#6F6F6F];
+}
+
+.table-paginate-head {
+  @apply bg-[#F2F2F2] border border-[#8C8C8C] border-x-0 border-t-0;
+}
+
+.table-paginate-head p {
+  @apply py-3 px-6 min-w-[177px];
+}
+
+/* .table-paginate-row {
+  @apply 
+} */
+
+.table-paginate-row p,
+.table-paginate-row div {
+  @apply text-left  py-3 px-6 min-w-[177px];
 }

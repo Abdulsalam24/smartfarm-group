@@ -1,8 +1,10 @@
 import axios from "axios";
-// @ts-ignore
 import { getCookie, removeCookie } from "typescript-cookie";
+import { clearLoginUser } from "./setUser";
 
 const client = axios.create();
+
+console.log("tokenenene");
 
 if (typeof window !== "undefined") {
   const token = getCookie("token");
@@ -18,6 +20,7 @@ client.interceptors.response.use(
   (error) => {
     const { status } = error?.response || {};
     if (status === 403 || status === 411) {
+      clearLoginUser();
       removeCookie("token");
     }
     return Promise.reject(error);

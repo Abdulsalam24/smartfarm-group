@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/icons/logo.svg";
 import Image from "next/image";
 import TextInput from "@/components/ui/text-input";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import AuthLayout from "@/components/layout/authLayout";
 import { loginAction } from "@/stores/auth/action";
 import Button from "@/components/ui/Button";
+import { removeCookie } from "typescript-cookie";
 
 const Login = () => {
   const router = useRouter();
@@ -35,6 +36,10 @@ const Login = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    removeCookie("token");
+  } ,[])
 
   return (
     <AuthLayout>

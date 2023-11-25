@@ -1,17 +1,15 @@
-import { registerApi } from "@/api/auth";
+import { loginApi, registerApi } from "@/api/auth";
 import { toaster } from "@/helpers/handle-toast";
 import { handleError } from "@/utils/errorHandler";
+import setToken from "@/utils/setToken";
+import { setLoginUser } from "@/utils/setUser";
 
 export const registerAction = async (registerInfo: any): Promise<any> => {
   try {
     const { data } = await registerApi(registerInfo);
-    toaster(data.description, "success");
-
-    let redirect = "/auth/verify-user";
-
+    toaster(data.message, "success");
     return {
       success: true,
-      redirect,
     };
   } catch (error) {
     return {
@@ -23,9 +21,10 @@ export const registerAction = async (registerInfo: any): Promise<any> => {
 
 export const loginAction = async (loginInfo: any): Promise<any> => {
   try {
-    const { data } = await registerApi(loginInfo);
-    toaster(data.description, "success");
-
+    const { data } = await loginApi(loginInfo);
+    toaster(data.message, "success");
+    setToken(data.data.accessToken);
+    setLoginUser(data.data.fullname);
     return {
       success: true,
     };
