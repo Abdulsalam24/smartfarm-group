@@ -9,11 +9,14 @@ export const handleError = (error: any) => {
 
   const values = errorData && Object?.values(errorData);
 
+
   if (values?.length > 0) {
     const firstErrorValue = values[0];
     toaster(`${firstErrorValue}`, "error");
     return;
   }
+
+  console.log(error, "daadcadcd");
 
   if (errorMessage !== "") {
     toaster(errorMessage, "error");

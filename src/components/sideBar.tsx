@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import menuIcon from "../assets/icons/bars-3.svg";
 import Image from "next/image";
-import closeIcon from "../assets/img/close.svg";
+import closeIcon from "../assets/img/x-mark.svg";
 import Link from "next/link";
 import { SwipeableDrawer } from "@mui/material";
 
@@ -42,6 +42,12 @@ const SideBar = ({
               onOpen={toggleDrawer(anchor, true)}
             >
               <div className="pt-10 w-[70vw] wide-900:hidden z-10 bg-white">
+                <Image
+                  src={closeIcon}
+                  alt="menuIcon"
+                  className="h-[24px] z-[999] w-[24px] ml-auto mb-6 mt-2 mr-5 text-base-dark-300 dark:text-[#9E9B9E]"
+                  onClick={toggleDrawer(anchor, false)}
+                />
                 <ul className="flex flex-col gap-4 text-black md:hidden">
                   <Link href={link1}>
                     <li className="px-6 pb-[13px] border border-x-0 border-t-0">

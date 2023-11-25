@@ -32,6 +32,7 @@ import { getPredictionAction } from "@/stores/prediction/action";
 import { getWeatherAction } from "@/stores/weather/action";
 import Modal from "@/components/ui/modal";
 import Button from "@/components/ui/Button";
+import CropPrediction from "@/components/ui/crop-predcition";
 
 const HomePage = () => {
   const tracking = false;
@@ -118,8 +119,8 @@ const HomePage = () => {
     };
 
   useEffect(() => {
-    // const userDetails = JSON.parse(getCookie("user")!);
-    // setUserInfo(userDetails);
+    const userDetails = JSON.parse(getCookie("user")!);
+    setUserInfo(userDetails);
 
     const getPrediction = async () => {
       const res = await getPredictionAction();
@@ -136,8 +137,12 @@ const HomePage = () => {
     getPrediction();
   }, []);
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <section className="pb-[70px] md:pb-0 wrapper home-page">
+    <section className="pb-[70px] md:pb-5 wrapper home-page">
       <div className="md:hidden flex items-center justify-between pr-5">
         <div>
           <Image src={logo} alt="logo" />
@@ -235,7 +240,7 @@ const HomePage = () => {
         )}
       </div>
       <div className="hidden md:flex">
-        <div className="w-[25%] px-5 shadow-md min-h-screen">
+        <div className="w-[25%] z-[40px] px-5 shadow-md min-h-screen">
           <Image src={logo} alt="logo" />
           <ul>
             <li className="flex mt-[65px] items-center gap-6 p-2">
@@ -245,14 +250,14 @@ const HomePage = () => {
           </ul>
         </div>
         <div className="w-[75%]">
-          <div className="py-[10px] shadow-md w-full">
+          <div className="py-[10px] shadow-md border-[#a8a8a8667646%, 0.4)] broder-x-0 border-t-0 w-full">
             <div className="flex gap-4 items-center py-3 px-[60px] justify-end">
               <p className="capitalize">{userInfo}</p>
               <Image src={profile} alt="profile" />
             </div>
           </div>
           <div className="pt-5 pl-6 flex gap-5">
-            <div className="w-[70%]">
+            <div className="w-[65%]">
               <div className="flex justify-between items-start text-white p-4 py-6 sm-400:px-[25px] rounded-[20px] bg-[#EC7621] mb-[45px] w-full shadow-md">
                 <div>
                   <p className="text-white text-[18px]">21st November 2023</p>
@@ -317,7 +322,11 @@ const HomePage = () => {
                           <p>Harvest Season</p>
                           <p>Status</p>
                         </div>
-                        {tracksList.map((track, i) => (
+                        <div className="min-h-screen m-10 text-center mx-auto flex flex-col items-center ">
+                          <Image src={emptyNote} alt="emptyNote" />
+                          <p>No history on prediction</p>
+                        </div>
+                        {/* {tracksList.map((track, i) => (
                           <div
                             key={i}
                             className="table-paginate-row border border-[#8C8C8C] border-t-0 border-x-0 flex w-full justify-between items-center"
@@ -337,7 +346,7 @@ const HomePage = () => {
                               </span>
                             </p>
                           </div>
-                        ))}
+                        ))} */}
                       </div>
                     </div>
                   </div>
@@ -358,55 +367,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div
-          className="custom-modal"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <div className="w-full max-w-[90%] md:max-w-full p-6 mx-auto bg-white rounded-md dark:bg-dark-primary">
-            <div className="flex flex-col items-center">
-              <div className="flex flex-col items-center">
-                <Image src={successIcon} alt="successIcon" />
-                <h3 className="text-[18px]  mt-2 mb-[13px]">
-                  Prediction Result
-                </h3>
-                <p className="text-[#6F6F6F]">
-                  This is the best season to plant rice!
-                </p>
-              </div>
-              <div className="mt-[43px] mb-[65px]">
-                <p className="font-bold">Optimum Yield</p>
-                <div>
-                  <p className="mt-5 mb-4">
-                    Best plant season -
-                    <span className="font-bold text-[14px]">Spring</span>
-                  </p>
-                  <p>
-                    Best harvest season -
-                    <span className="font-bold text-[14px]">Rainy</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <Button
-                  text="Proceed to Plant"
-                  btnStyle="px-4 py-2"
-                  color="text-white"
-                  bgColor="bg-[#225C2B]"
-                  padding=""
-                />
-                <p
-                  onClick={() => setIsOpen(false)}
-                  className="text-[#DA1E28] font-medium mt-5"
-                >
-                  Close
-                </p>
-              </div>
-            </div>
-          </div>
+      <Modal isOpen={isOpen} onClose={handleClose}>
+        <div className="custom-modal">
+          <CropPrediction handleClose={handleClose} />
         </div>
       </Modal>
     </section>

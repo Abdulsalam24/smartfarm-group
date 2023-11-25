@@ -49,7 +49,7 @@ const PredictionHistory = () => {
   ];
 
   return (
-    <section className="history relative px-6 pt-5 pb-40 md:px-0">
+    <section className="history relative px-6 pt-5 pb-40 md:px-0 md:p-0">
       <div
         className="mb-5 md:hidden w-fit"
         onClick={() => router.push("/homepage")}
@@ -86,7 +86,7 @@ const PredictionHistory = () => {
             e.stopPropagation();
           }}
         >
-          <div className="w-full max-w-[90%] md:min-w-[400px]  p-6 mx-auto bg-white rounded-md dark:bg-dark-primary">
+          <div className="w-full max-w-[90%] md:max-w-[400px] py-6 px-5 mx-auto bg-white rounded-md">
             <div className="flex flex-col items-center">
               {historyCheck.isDfault ? (
                 <>
@@ -156,7 +156,7 @@ const PredictionHistory = () => {
                 />
                 <p
                   onClick={() => setIsOpen(false)}
-                  className="text-[#DA1E28] font-medium mt-5"
+                  className="text-[#DA1E28] cursor-pointer font-medium mt-5"
                 >
                   Close
                 </p>

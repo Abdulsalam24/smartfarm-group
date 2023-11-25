@@ -12,13 +12,14 @@ const TextInput: React.FC<{
   return (
     <div>
       <label className="font-medium capitalize">{label}</label>
-      {type === "text" ? (
+      {type === "text" || type === "email" ? (
         <>
           <input
+            required
             name={name}
             value={value}
             className="border border-[#161616] mt-[9px] border-x-0 border-t-0 w-full"
-            type="text"
+            type={type}
             placeholder={placeholder}
             onChange={onChange}
           />
@@ -26,6 +27,7 @@ const TextInput: React.FC<{
       ) : type === "phone" ? (
         <>
           <input
+            required
             name={name}
             value={value}
             className="border border-[#161616] mt-[9px] border-x-0 border-t-0 w-full"
@@ -39,6 +41,7 @@ const TextInput: React.FC<{
       ) : (
         <>
           <input
+            required
             className="border border-[#161616] mt-[9px] border-x-0 border-t-0 w-full"
             type="text"
             name={name}

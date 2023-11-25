@@ -12,7 +12,7 @@ const Modal: FC<CustomModalProps> = ({ isOpen, onClose, children }) => {
     <>
       {isOpen && (
         <div
-          className="custom-modal-container fixed inset-0 w-full h-full  backdrop-filter flex justify-center items-center z-[60]"
+          className="custom-modal-container  fixed inset-0 w-full h-full backdrop-filter flex justify-center items-center z-[60]"
           onClick={onClose}
         >
           {children}

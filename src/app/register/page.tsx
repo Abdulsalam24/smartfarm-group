@@ -8,15 +8,19 @@ import { useRouter } from "next/navigation";
 import acceptNumber from "@/helpers/acceptNumber";
 import AuthLayout from "@/components/layout/authLayout";
 import { registerAction } from "@/stores/auth/action";
+import backIcon from "../../assets/icons/back-icon.svg";
+import Button from "@/components/ui/Button";
 
 const Register = () => {
-  
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
 
   const [formdata, setFormData] = useState({
     firstname: "",
     lastname: "",
     phoneNo: "",
+    email: "",
     location: "",
     password: "",
   });
@@ -30,18 +34,28 @@ const Register = () => {
   };
 
   const handleSubmit = async (e: any) => {
+    setLoading(true);
     e.preventDefault();
     const res = await registerAction(formdata);
     if (res.success) {
       router.push("/login");
     }
+    setLoading(false);
   };
 
   return (
     <AuthLayout>
+      <div className="mt-5 md:hidden w-fit" onClick={() => router.push("/")}>
+        <Image src={backIcon} alt="backIcon" />
+      </div>
       <div className="w-full">
         <div className="flex flex-col items-center gap-2 field-heading">
-          <Image src={logo} alt="logo" className="md:hidden" />
+          <Image
+            src={logo}
+            alt="logo"
+            onClick={() => router.push("/")}
+            className="md:hidden"
+          />
           <h2>Register</h2>
           <p>Create your new account</p>
         </div>
@@ -64,6 +78,15 @@ const Register = () => {
             type="text"
             onChange={onChange}
             value={formdata.lastname}
+          />
+          <TextInput
+            label="Email"
+            placeholder="Enter your email"
+            type="email"
+            name="email"
+            onChange={onChange}
+            acceptNumber={acceptNumber}
+            value={formdata.email}
           />
           <TextInput
             label="Phone Number"
@@ -98,13 +121,26 @@ const Register = () => {
           </p>
         </div>
         <div className="mb-4">
-          <button
+          {/* <button
             className="bg-green-100 text-white  rounded-[24px] p-[13px] w-full"
             onClick={handleSubmit}
           >
             Register
-          </button>
+          </button> */}
+
+          <Button
+            info={formdata}
+            loading={loading}
+            padding="p-[15.5px]"
+            rounded="rounded-[24px]"
+            color="text-white"
+            bgColor="bg-green-100"
+            btnStyle="w-full"
+            onClick={handleSubmit}
+            text="Register"
+          />
         </div>
+
         <p className="text-center">
           Already have an account?{" "}
           <span

@@ -1,6 +1,5 @@
 "use client";
 
-import Loader from "@/components/ui/loader";
 import Modal from "@/components/ui/modal";
 import TextInput from "@/components/ui/text-input";
 import Image from "next/image";
@@ -9,54 +8,102 @@ import React, { useState } from "react";
 import backIcon from "../../assets/icons/back-icon.svg";
 import { useRouter } from "next/navigation";
 import successIcon from "../../assets/icons/success-icon.svg";
-import Button from "@/components/ui/Button";
+import closeIcon from "../../assets/img/x-mark.svg";
 
-const CropPrediction = () => {
+import Button from "@/components/ui/Button";
+import { getYieldPredictionAction } from "@/stores/prediction/action";
+import Loader from "@/components/ui/loader";
+
+const CropPrediction = ({ handleClose }: any) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    // setLoading(true);
-    setIsOpen(true);
+  const [predictionResult, setPredictionResult] = useState(false);
+
+  // const handleSubmit = () => {
+  //   // setLoading(true);
+  //   setIsOpen(true);
+  // };
+
+  const [predictionData, setPredictionData] = useState({
+    ph: "",
+    location: "",
+    label: "",
+    water_availability: "",
+  });
+
+  const onChange = (e: any) => {
+    const { name, value } = e.target;
+    setPredictionData({
+      ...predictionData,
+      [name]: value,
+    });
   };
 
+  const handleSubmit = async (e: any) => {
+    setLoading(true);
+    e.preventDefault();
+    const res = await getYieldPredictionAction(predictionData);
+    // if (res.success) {
+    // router.push("/homepage");
+    setIsOpen(true);
+    setPredictionResult(false);
+    // }
+    setLoading(false);
+  };
   return (
-    <section className="relative px-6 pt-5 pb-40">
-      <div className="mb-5 w-fit" onClick={() => router.push("/homepage")}>
-        <Image src={backIcon} alt="backIcon" />
+    <section className="relative px-6 pt-5 pb-40 md:p-0">
+      <div
+        className="mb-5 w-fit md:ml-auto"
+        onClick={() => router.push("/homepage")}
+      >
+        <Image className="md:hidden" src={backIcon} alt="backIcon" />
+        <Image
+          className="hidden md:block cursor-pointer"
+          onClick={handleClose}
+          src={closeIcon}
+          alt="backIcon"
+        />
       </div>
       {loading ? <Loader /> : ""}
       <div className="text-center">
-        <h3 className="text-[18px] mb-[5px]">Precise Farming</h3>
+        <h3 className="text-[18px] mb-[5px]  md:text-[20px]">
+          Precise Farming
+        </h3>
         <h5 className="text-[#525252]">
           Input data to get information on precise farming
         </h5>
       </div>
       <div className="flex flex-col gap-8 mt-[41px] mb-[64px]">
         <TextInput
-          onChange={() => ""}
+          onChange={onChange}
           label="Crop Type"
           placeholder="Rice"
           type="text"
+          name="label"
         />
+
         <TextInput
-          onChange={() => ""}
+          onChange={onChange}
           label="Location"
           placeholder="Nigeria"
           type="text"
+          name="location"
         />
         <TextInput
-          onChange={() => ""}
+          onChange={onChange}
           label="Soil PH"
           placeholder="6.5029999999"
           type="text"
+          name="ph"
         />
         <TextInput
-          onChange={() => ""}
+          onChange={onChange}
           label="Water availability"
           placeholder="202.5029999999"
           type="text"
+          name="water_availability"
         />
       </div>
 
@@ -70,7 +117,7 @@ const CropPrediction = () => {
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div
-          className="custom-modal"
+          className="custom-modal max-w-[90%]"
           onClick={(e) => {
             e.stopPropagation();
           }}

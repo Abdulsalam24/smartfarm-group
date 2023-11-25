@@ -9,14 +9,16 @@ import AuthLayout from "@/components/layout/authLayout";
 import { loginAction } from "@/stores/auth/action";
 import Button from "@/components/ui/Button";
 import { removeCookie } from "typescript-cookie";
+import backIcon from "../../assets/icons/back-icon.svg";
 
 const Login = () => {
   const router = useRouter();
 
   const [loginData, setLoginData] = useState({
-    phoneNo: "",
+    email: "",
     password: "",
   });
+
   const [loading, setLoading] = useState(false);
 
   const onChange = (e: any) => {
@@ -39,22 +41,30 @@ const Login = () => {
 
   useEffect(() => {
     removeCookie("token");
-  } ,[])
+  }, []);
 
   return (
     <AuthLayout>
+      <div className="mt-5 md:hidden w-fit" onClick={() => router.push("/")}>
+        <Image src={backIcon} alt="backIcon" />
+      </div>
       <div className="w-full">
         <div className="flex flex-col items-center gap-2 field-heading">
-          <Image src={logo} alt="logo" className="md:hidden" />
+          <Image
+            onClick={() => router.push("/")}
+            src={logo}
+            alt="logo"
+            className="md:hidden"
+          />
           <h2>Sign in</h2>
           <p>Sign in to your account</p>
         </div>
         <div className="mt-[112px] flex flex-col gap-[30px]">
           <TextInput
-            label="phone number"
-            placeholder="09035648593"
-            type="phone"
-            name="phoneNo"
+            label="Email"
+            placeholder="abdoyobos@gmail.com"
+            type="email"
+            name="email"
             onChange={onChange}
           />
           <TextInput
@@ -73,6 +83,7 @@ const Login = () => {
         </div>
         <div className="mt-[36px]">
           <Button
+            info={loginData}
             loading={loading}
             padding="p-[15.5px]"
             rounded="rounded-[24px]"

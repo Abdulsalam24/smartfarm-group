@@ -1,14 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Manrope:wght@400;500;700;800&display=swap");
+
+@font-face {
+  font-family: manrope;
+  src: url("../fonts/manrope/Manrope-Regular.ttf");
+}
+
+@font-face {
+  font-family: manrope700;
+  src: url("../fonts/manrope/Manrope-Bold.ttf");
+}
+
+@font-face {
+  font-family: inter;
+  src: url("../fonts/inter/Inter-Regular.ttf");
+}
+
+@font-face {
+  font-family: inter800;
+  src: url("../fonts/inter/Inter-ExtraBold.ttf");
+}
 
 h1 {
-  font-family: "Inter", sans-serif;
-  @apply text-[40px] md:text-[60px];
-}
-body {
-  /* background-color: #F7F7F7; */
+  @apply text-[40px] md:text-[60px] font-interBold font-extrabold;
 }
 
 .field-heading p {
@@ -24,9 +39,8 @@ h2 {
 }
 
 h3 {
-  font-family: "Manrope", sans-serif;
+  /* font-family: 'Manrope', sans-serif; */
   font-size: 16px;
-
   @apply text-base md:text-[18px];
 }
 
@@ -35,7 +49,7 @@ h4 {
 }
 
 h5 {
-  font-size: 12px;
+  @apply text-xs md:text-sm;
 }
 
 span {
@@ -46,18 +60,21 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 700;
-  font-family: "Manrope", sans-serif;
+  @apply font-manrope font-bold;
 }
 
+p,
+span,
+li,
+button {
+  @apply font-manrope;
+}
 p {
-  font-family: "Manrope", sans-serif;
-  color: #161616;
-  @apply text-sm md:text-[16px];
+  @apply text-sm md:text-[16px]  text-[#161616];
 }
 
 button:hover {
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 p:has(span),
@@ -100,12 +117,13 @@ nav ul li {
   @apply md:text-[16px];
 }
 
-.home p,nav p {
+.home p,
+nav p {
   @apply md:text-[18px];
 }
 
-.history span{
-  @apply text-[14px]
+.history span {
+  @apply text-[14px];
 }
 
 .content {
@@ -113,7 +131,6 @@ nav ul li {
   overflow: hidden;
   transition: 1s;
 }
-
 
 .content.show {
   height: auto;
@@ -144,13 +161,10 @@ nav ul li {
   position: relative;
   gap: 10px;
   border-radius: 10px;
-  background-color: white;
-  box-shadow: 0px 8px 10px -6px rgba(16, 24, 40, 0.1),
-    0px 20px 25px -5px rgba(16, 24, 40, 0.1);
   min-width: 300px;
-  width: 90%;
   margin: auto;
-  @apply max-w-[363px] md:max-w-[500px];
+  width: 100%;
+  /* @apply max-w-[363px] md:max-w-[605px]; */
 }
 
 /* VERTICAL / DEFAULT */

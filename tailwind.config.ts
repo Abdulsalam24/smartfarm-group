@@ -28,6 +28,12 @@ const config: Config = {
           100: "#EB6200",
         },
       },
+      fontFamily: {
+        manrope: ["manrope", "sans"],
+        manropeBold: ["manrope700"],
+        inter: ["inter"],
+        interBold: ["inter800"],
+      },
       backgroundImage: {
         gradient:
           "linear-gradient(180deg, rgba(99, 154, 58, 0.67) 0%, rgba(99, 154, 58, 0.00) 81.25%, rgba(255, 255, 255, 0.00) 98.44%)",

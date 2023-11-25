@@ -9,7 +9,6 @@ import Button from "../Button";
 import SideBar from "@/components/sideBar";
 
 export const NavBar: React.FC = () => {
-
   const [mobile, setMobile] = useState({
     right: false,
   });
@@ -35,6 +34,7 @@ export const NavBar: React.FC = () => {
         <div>
           <Image src={logo} alt="logo" />
         </div>
+
         <SideBar
           mobile={mobile}
           setMobile={setMobile}
@@ -45,12 +45,17 @@ export const NavBar: React.FC = () => {
           link2="/register"
         />
 
-        <div className="items-center hidden gap-6 md:flex ">
+        <div className="items-center hidden md:mt-3 gap-6 md:flex ">
           <Link href="/login">
-            <p>Login</p>
+            <p className="md:text-base">Login</p>
           </Link>
           <Link href="/register">
-            <Button bgColor="bg-green-100" color="text-white" text="Register" />
+            <Button
+              btnStyle="md:text-sm"
+              bgColor="bg-green-100"
+              color="text-white"
+              text="Register"
+            />
           </Link>
         </div>
       </div>

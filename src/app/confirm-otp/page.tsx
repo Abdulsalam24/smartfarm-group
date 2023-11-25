@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import backIcon from "../../assets/icons/back-icon.svg";
 import Image from "next/image";
 import TextInput from "@/components/ui/text-input";
@@ -8,16 +8,18 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import OtpInput from "@/components/ui/otp-input";
 import AuthLayout from "@/components/layout/authLayout";
+import { forgotPasswordEmail } from "@/stores/auth/atom";
+import { useRecoilState } from "recoil";
+import { verfiyOtpAction } from "@/stores/auth/action";
+import { getCookie } from "typescript-cookie";
 
 const ConfirmOtp = () => {
-  
   const router = useRouter();
+
+  const [forgotPasswordInfo, setForgotPasswordInfo] =
+    useRecoilState(forgotPasswordEmail);
+
   const inputRefs = useRef<HTMLInputElement[]>([]);
-
-  const handleSubmit = () => {
-    router.push("/reset-password");
-  };
-
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
@@ -37,15 +39,34 @@ const ConfirmOtp = () => {
       inputRefs.current[index + 1]?.focus();
     }
   };
+
+  const [loading, setLoading] = useState(false);
+
   const [otp, setOTP] = useState(["", "", "", ""]);
+
+  const handleSubmit = async (e: any) => {
+    setLoading(true);
+    e.preventDefault();
+    const otpVerifcation = {
+      farmerEmail: forgotPasswordInfo,
+      token: otp.join(""),
+    };
+
+    const res = await verfiyOtpAction(otpVerifcation);
+    if (res.success) {
+      router.push("/reset-password");
+    }
+    setLoading(false);
+  };
 
   return (
     <AuthLayout>
       <div className="w-full">
-        <div className="w-fit md:hidden">
-          <Link href="/login" className="w-fit ">
-            <Image src={backIcon} alt="backIcon" />
-          </Link>
+        <div
+          className="mt-5 md:hidden w-fit"
+          onClick={() => router.push("/forgot-password")}
+        >
+          <Image src={backIcon} alt="backIcon" />
         </div>
         <div className="text-center pt-[151px] field-heading">
           <h2>Enter 4 digit code</h2>
