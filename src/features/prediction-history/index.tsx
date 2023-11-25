@@ -1,52 +1,49 @@
 "use client";
 import Modal from "@/components/ui/modal";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import backIcon from "../../assets/icons/back-icon.svg";
 import { useRouter } from "next/navigation";
 import successIcon from "../../assets/icons/success-icon.svg";
 import failedIcon from "../../assets/icons/failed-icon.svg";
 import Button from "@/components/ui/Button";
+import { getPredictionAction } from "@/stores/prediction/action";
+import Loader from "@/components/ui/loader";
 
 const PredictionHistory = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    // setLoading(true);
-    setIsOpen(true);
-  };
+  const [loading, setLoading] = useState(true);
 
-  const active = "";
+  const [predictions, setPredictions] = useState([]);
+  const [singlePrediction, setSinglePrediction] = useState<any>({});
+
+  useEffect(() => {
+    const getPredictionAndWeather = async () => {
+      const predictions = await getPredictionAction();
+      if (predictions.success) {
+        setPredictions(predictions.data);
+      }
+    };
+    getPredictionAndWeather();
+    setLoading(false);
+  }, []);
 
   const historyCheck = {
     isDfault: true,
     predict: true,
   };
 
-  const history = [
-    {
-      date: "2023 jan",
-      prediction: "Rice Prediction",
-    },
-    {
-      date: "2023 jan",
-      prediction: "Rice Prediction",
-    },
-    {
-      date: "2023 jan",
-      prediction: "Rice Prediction",
-    },
-    {
-      date: "2023 jan",
-      prediction: "Rice Prediction",
-    },
-    {
-      date: "2023 jan",
-      prediction: "Rice Prediction",
-    },
-  ];
+  console.log(singlePrediction, "singlePrediction");
+
+  const handleOpenPrediction = (id: number) => {
+    const filteredPrediction = predictions.filter(
+      (item: any) => item.id === id
+    );
+    setSinglePrediction(filteredPrediction[0]);
+    setIsOpen(true);
+  };
 
   return (
     <section className="history relative px-6 pt-5 pb-40 md:px-0 md:p-0">
@@ -60,24 +57,34 @@ const PredictionHistory = () => {
         <h3 className="text-[18px] mb-[5px]">Precise Farming</h3>
       </div>
       <div className="flex flex-col gap-8 mt-[41px] mb-[64px]">
-        {history.map((item, i) => (
-          <div
-            key={i}
-            className="pb-3 flex border border-x-0 border-t-0 justify-between items-end"
-          >
-            <div>
-              <span>{item.date}</span> <br />
-              <span className="mt-4">{item.prediction}</span>
-            </div>
-            <span
-              className="text-[#35BF4A] cursor-pointer"
-              onClick={() => setIsOpen(true)}
+        {loading ? (
+          <Loader />
+        ) : (
+          predictions?.map((item: any, i: number) => (
+            <div
+              key={i}
+              className="pb-3 flex border border-x-0 border-t-0 justify-between items-end"
             >
-              View result
-            </span>
-          </div>
-        ))}
+              <div>
+                <span>21 , jan 20023</span> <br />
+                <span className="mt-4">{item.prediction}</span>
+              </div>
+              <span
+                className="text-[#35BF4A] whitespace-nowrap cursor-pointer"
+                onClick={() => handleOpenPrediction(item.id)}
+              >
+                View result
+              </span>
+            </div>
+          ))
+        )}
       </div>
+
+      {/* 
+      <div className="text-center mt-40 self-center ">
+        <Image src={emptyNote} alt="emptyNote" />
+        <p>No history on prediction</p>
+      </div> */}
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div
@@ -88,59 +95,21 @@ const PredictionHistory = () => {
         >
           <div className="w-full max-w-[90%] md:max-w-[400px] py-6 px-5 mx-auto bg-white rounded-md">
             <div className="flex flex-col items-center">
-              {historyCheck.isDfault ? (
-                <>
-                  <div className="flex flex-col items-center">
-                    <Image src={successIcon} alt="successIcon" />
-                    <h3 className="text-[18px]  mt-2 mb-[13px]">
-                      Prediction Result
-                    </h3>
-                    <p className="text-[#6F6F6F]">
-                      This is the best season to plant rice!
-                    </p>
-                  </div>
-                  <div className="mt-[43px] mb-[65px]">
-                    <p className="font-bold">Optimum Yield</p>
-                    <div>
-                      <p className="mt-5 mb-4">
-                        Specific plant date -{" "}
-                        <span className="font-bold text-[14px]">
-                          21st November 2023
-                        </span>
-                      </p>
-                      <p>
-                        Specific harvest date -{" "}
-                        <span className="font-bold text-[14px]">
-                          21st November 2023
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="items-center">
-                    <Image src={failedIcon} alt="failedIcon" />
-                    <h3 className="text-[18px]  mt-2 mb-[13px]">
-                      Prediction Result
-                    </h3>
-                    <p className="text-[#6F6F6F]">
-                      This is not the best season to plant rice!
-                    </p>
-                  </div>
-                  <div className="mt-[43px] mr-auto mb-[65px] pl-[14px]">
-                    <p className="font-bold">Best crops to plant this season</p>
-                    <div>
-                      <p className="mt-5 mb-4">
-                        <span className="mr-1 text-xl">·</span> KidneyBeans
-                      </p>
-                      <p>
-                        <span className="mr-1 text-xl">·</span> KidneyBeans
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
+              <div className="flex flex-col items-center">
+                <Image src={successIcon} alt="successIcon" />
+                <h3 className="text-[18px]  mt-2 mb-[13px]">
+                  Prediction Result
+                </h3>
+                <p className="text-[#6F6F6F]">
+                  This is the best season to plant {singlePrediction?.crop}!
+                </p>
+              </div>
+              <div className="mt-[43px] mb-[65px]">
+                <p className="font-bold">Optimum Yield</p>
+                <div>
+                  <p className="mt-5 mb-4">{singlePrediction?.prediction}</p>
+                </div>
+              </div>
 
               <div className="flex flex-col items-center">
                 <Button

@@ -26,6 +26,8 @@ const CropPrediction = ({ handleClose }: any) => {
   //   setIsOpen(true);
   // };
 
+  const [prediction, setPrediction] = useState<any>({});
+
   const [predictionData, setPredictionData] = useState({
     ph: "",
     location: "",
@@ -45,13 +47,18 @@ const CropPrediction = ({ handleClose }: any) => {
     setLoading(true);
     e.preventDefault();
     const res = await getYieldPredictionAction(predictionData);
-    // if (res.success) {
-    // router.push("/homepage");
-    setIsOpen(true);
-    setPredictionResult(false);
-    // }
+    console.log(res, "res");
+    if (res.success) {
+      setPrediction(res.data);
+      setPredictionResult(true);
+      setIsOpen(true);
+      setLoading(false);
+    } else {
+      router.push(res.redirect);
+    }
     setLoading(false);
   };
+
   return (
     <section className="relative px-6 pt-5 pb-40 md:p-0">
       <div
@@ -66,7 +73,6 @@ const CropPrediction = ({ handleClose }: any) => {
           alt="backIcon"
         />
       </div>
-      {loading ? <Loader /> : ""}
       <div className="text-center">
         <h3 className="text-[18px] mb-[5px]  md:text-[20px]">
           Precise Farming
@@ -80,40 +86,66 @@ const CropPrediction = ({ handleClose }: any) => {
           onChange={onChange}
           label="Crop Type"
           placeholder="Rice"
-          type="text"
+          type="select"
           name="label"
+          value={predictionData.label}
+          options={[
+            "rice",
+            "maize",
+            "chickpea",
+            "kidneybeans",
+            "pigeonpeas",
+            "mothbeans",
+            "mungbean",
+            "blackgram",
+            "lentil",
+            "watemelon",
+            "muskmelon",
+            "cotton",
+            "jute",
+          ]}
         />
-
         <TextInput
           onChange={onChange}
           label="Location"
           placeholder="Nigeria"
-          type="text"
+          type="select"
+          value={predictionData.location}
           name="location"
+          options={["Nigeria", "South Africa", "Kenya", "Sudan"]}
         />
+
         <TextInput
           onChange={onChange}
           label="Soil PH"
           placeholder="6.5029999999"
           type="text"
+          value={predictionData.ph}
           name="ph"
         />
         <TextInput
           onChange={onChange}
           label="Water availability"
           placeholder="202.5029999999"
+          value={predictionData.water_availability}
           type="text"
           name="water_availability"
         />
       </div>
 
-      <Link href="/crop-prediction" className="block text-center">
-        <button className="py-2 px-4 bg-[#225C2B] rounded-[18px]">
-          <span onClick={handleSubmit} className="text-white text-[14px]">
-            Analyze Data
-          </span>
-        </button>
-      </Link>
+      <div className="w-full text-center">
+        <Button
+          loading={loading}
+          padding="p-[15.5px]"
+          rounded="rounded-[18px]"
+          color="text-white"
+          bgColor="bg-green-100"
+          btnStyle="w-fit mx-auto py-2 px-4"
+          onClick={handleSubmit}
+          text=" Analyze Data"
+          info={predictionData}
+        />
+      </div>
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div
@@ -130,20 +162,13 @@ const CropPrediction = ({ handleClose }: any) => {
                   Prediction Result
                 </h3>
                 <p className="text-[#6F6F6F]">
-                  This is the best season to plant rice!
+                  This is the best season to plant {prediction.crop}!
                 </p>
               </div>
               <div className="mt-[43px] mb-[65px]">
                 <p className="font-bold">Optimum Yield</p>
                 <div>
-                  <p className="mt-5 mb-4">
-                    Best plant season -
-                    <span className="font-bold text-[14px]">Spring</span>
-                  </p>
-                  <p>
-                    Best harvest season -
-                    <span className="font-bold text-[14px]">Rainy</span>
-                  </p>
+                  <p className="mt-5 mb-4">{prediction.prediction}</p>
                 </div>
               </div>
 
@@ -154,6 +179,7 @@ const CropPrediction = ({ handleClose }: any) => {
                   color="text-white"
                   bgColor="bg-[#225C2B]"
                   padding=""
+                  onClick={() => router.push("/homepage")}
                 />
                 <p
                   onClick={() => setIsOpen(false)}

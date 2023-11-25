@@ -21,6 +21,8 @@ const CropPrediction = ({ handleClose }: any) => {
 
   const [predictionResult, setPredictionResult] = useState(false);
 
+  const [prediction, setPrediction] = useState<any>([]);
+
   // const handleSubmit = () => {
   //   // setLoading(true);
   //   setIsOpen(true);
@@ -35,6 +37,7 @@ const CropPrediction = ({ handleClose }: any) => {
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
+    console.log(e, "valueeeeeeee");
     setPredictionData({
       ...predictionData,
       [name]: value,
@@ -45,10 +48,14 @@ const CropPrediction = ({ handleClose }: any) => {
     setLoading(true);
     e.preventDefault();
     const res = await getYieldPredictionAction(predictionData);
-    // if (res.success) {
-    // router.push("/homepage");
-    setPredictionResult(true);
-    // }
+    if (res.success) {
+      setPrediction(res.data);
+      setPredictionResult(true);
+      setLoading(false);
+      
+    } else {
+      router.push(res.redirect);
+    }
     setLoading(false);
   };
 
@@ -79,20 +86,13 @@ const CropPrediction = ({ handleClose }: any) => {
             <Image src={successIcon} alt="successIcon" />
             <h3 className="text-[18px]  mt-2 mb-[13px]">Prediction Result</h3>
             <p className="text-[#6F6F6F]">
-              This is the best season to plant rice!
+              This is the best season to plant {prediction?.crop}!
             </p>
           </div>
           <div className="mt-[43px] mb-[65px]">
             <p className="font-bold">Optimum Yield</p>
             <div>
-              <p className="mt-5 mb-4">
-                Best plant season -
-                <span className="font-bold text-[14px]">Spring</span>
-              </p>
-              <p>
-                Best harvest season -
-                <span className="font-bold text-[14px]">Rainy</span>
-              </p>
+              <p className="mt-5 mb-4">{prediction?.prediction}</p>
             </div>
           </div>
 
@@ -103,6 +103,8 @@ const CropPrediction = ({ handleClose }: any) => {
               color="text-white"
               bgColor="bg-[#225C2B]"
               padding=""
+              loading={loading}
+              onClick={() => setPredictionResult(false)}
             />
             <p
               onClick={handleClose}
@@ -115,29 +117,46 @@ const CropPrediction = ({ handleClose }: any) => {
       ) : (
         <>
           <div className="text-center">
-            <h3 className="text-[18px] mb-[5px]  md:text-[20px]">
+            <h3 className="text-[18px] mb-[5px] md:text-[20px]">
               Precise Farming
             </h3>
             <h5 className="text-[#525252]">
               Input data to get information on precise farming
             </h5>
           </div>
-          <div className="flex flex-col gap-8 mt-[41px] mb-[64px]">
+          <div className="flex flex-col gap-8 mt-[41px] mb-[30px]">
             <TextInput
               onChange={onChange}
               label="Crop Type"
               placeholder="Rice"
-              type="text"
+              type="select"
               name="label"
+              options={[
+                "rice",
+                "maize",
+                "chickpea",
+                "kidneybeans",
+                "pigeonpeas",
+                "mothbeans",
+                "mungbean",
+                "blackgram",
+                "lentil",
+                "watemelon",
+                "muskmelon",
+                "cotton",
+                "jute",
+              ]}
             />
 
             <TextInput
               onChange={onChange}
               label="Location"
               placeholder="Nigeria"
-              type="text"
+              type="select"
               name="location"
+              options={["Nigeria", "South Africa", "Kenya", "Sudan"]}
             />
+
             <TextInput
               onChange={onChange}
               label="Soil PH"

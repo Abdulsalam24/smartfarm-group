@@ -1,12 +1,11 @@
-import { removeCookie, setCookie } from "typescript-cookie";
 import client from "./client";
 
 export default function setToken(token: string) {
   if (token) {
-    setCookie("token", token, { expires: 7 });
+    localStorage.setItem("token", token);
     client.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
-    removeCookie("token");
+    localStorage.removeItem("token");
     delete client.defaults.headers.common.Authorization;
   }
 }

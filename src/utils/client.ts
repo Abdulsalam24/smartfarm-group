@@ -1,13 +1,12 @@
 import axios from "axios";
-import { getCookie, removeCookie } from "typescript-cookie";
 import { clearLoginUser } from "./setUser";
 
 const client = axios.create();
 
-console.log("tokenenene");
-
 if (typeof window !== "undefined") {
-  const token = getCookie("token");
+  // Get token from local storage
+  const token = localStorage.getItem("token");
+
   if (token) {
     client.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
@@ -21,7 +20,8 @@ client.interceptors.response.use(
     const { status } = error?.response || {};
     if (status === 403 || status === 411) {
       clearLoginUser();
-      removeCookie("token");
+      // Remove token from local storage
+      localStorage.removeItem("token");
     }
     return Promise.reject(error);
   }

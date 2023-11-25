@@ -6,9 +6,19 @@ const TextInput: React.FC<{
   value?: string;
   placeholder?: string;
   label: string;
+  options?: string[];
   acceptNumber?: any;
   onChange: (value: any) => void;
-}> = ({ type, name, value, label, placeholder, acceptNumber, onChange }) => {
+}> = ({
+  type,
+  name,
+  value,
+  label,
+  placeholder,
+  acceptNumber,
+  options,
+  onChange,
+}) => {
   return (
     <div>
       <label className="font-medium capitalize">{label}</label>
@@ -38,6 +48,18 @@ const TextInput: React.FC<{
             onKeyDown={acceptNumber ? acceptNumber : undefined}
           />
         </>
+      ) : type === "select" ? (
+        <select
+          className="border outline-none border-[#161616] mt-[9px] border-x-0 border-t-0 w-full"
+          name={name}
+          required
+          onChange={onChange}
+        >
+          <option value="">Enter an option</option>
+          {options?.map((item, i) => (
+            <option key={i}>{item}</option>
+          ))}
+        </select>
       ) : (
         <>
           <input

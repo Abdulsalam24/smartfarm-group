@@ -5,10 +5,10 @@ import { removeCookie } from "typescript-cookie";
 
 export const handleError = (error: any) => {
   const errorData = error?.response?.data?.data;
+  const errorUnauthorize = error?.response?.data?.error;
   const errorMessage = error?.response?.data?.message;
 
   const values = errorData && Object?.values(errorData);
-
 
   if (values?.length > 0) {
     const firstErrorValue = values[0];
@@ -16,13 +16,12 @@ export const handleError = (error: any) => {
     return;
   }
 
-  console.log(error, "daadcadcd");
-
   if (errorMessage !== "") {
     toaster(errorMessage, "error");
     return "/";
   }
-  if (errorMessage === "Unauthorized") {
+  if (errorUnauthorize === "Unauthorized") {
+
     removeCookie("token");
     return "/";
   }

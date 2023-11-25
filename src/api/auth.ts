@@ -2,10 +2,15 @@ import client from "@/utils/client";
 
 const BASE_URL = "https://smartfarm-production-b9d7.up.railway.app/api";
 
+const getProfileApi = async (): Promise<any> => {
+  const url = new URL(`${BASE_URL}/auth/user-profile`);
+  const res = client.get(url.toString());
+  return res;
+};
+
 const loginApi = async (loginValue: any): Promise<any> => {
   const url = new URL(`${BASE_URL}/auth/login`);
   const res = client.post(url.toString(), loginValue);
-  console.log(res, "ressssssssssss");
   return res;
 };
 
@@ -30,6 +35,8 @@ const resetPasswordApi = async (resetPasswordInfo: any): Promise<any> => {
   return res;
 };
 
+
+
 const verfiyOtpApi = async (otp: any): Promise<any> => {
   const url = new URL(`${BASE_URL}/auth/verify-otp`);
   const res = client.post(url.toString(), otp);
@@ -42,4 +49,5 @@ export {
   forgotPasswordApi,
   resetPasswordApi,
   verfiyOtpApi,
+  getProfileApi,
 };

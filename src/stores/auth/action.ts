@@ -1,5 +1,6 @@
 import {
   forgotPasswordApi,
+  getProfileApi,
   loginApi,
   registerApi,
   verfiyOtpApi,
@@ -8,6 +9,21 @@ import { toaster } from "@/helpers/handle-toast";
 import { handleError } from "@/utils/errorHandler";
 import setToken from "@/utils/setToken";
 import { setLoginUser } from "@/utils/setUser";
+
+export const getProfileAction = async (): Promise<any> => {
+  try {
+    const { data } = await getProfileApi();
+    return {
+      success: true,
+      data: data.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      redirect: handleError(error),
+    };
+  }
+};
 
 export const registerAction = async (registerInfo: any): Promise<any> => {
   try {
@@ -26,8 +42,8 @@ export const registerAction = async (registerInfo: any): Promise<any> => {
 
 export const loginAction = async (loginInfo: any): Promise<any> => {
   try {
-    const {data} = await loginApi(loginInfo);
-    console.log(data , 'datatata')
+    const { data } = await loginApi(loginInfo);
+    console.log(data, "datatata");
     toaster(data.message, "success");
     setToken(data.data.accessToken);
     setLoginUser(data.data.fullname);

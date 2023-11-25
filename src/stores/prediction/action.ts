@@ -5,9 +5,10 @@ import { handleError } from "@/utils/errorHandler";
 export const getPredictionAction = async (): Promise<any> => {
   try {
     const { data } = await getPredictionApi();
-    toaster(data.message, "success");
+    // toaster(data.d)
     return {
       success: true,
+      data: data.data,
     };
   } catch (error) {
     return {
@@ -22,9 +23,9 @@ export const getYieldPredictionAction = async (
 ): Promise<any> => {
   try {
     const { data } = await getYieldPredictionApi(yieldPrediction);
-    toaster(data.message, "success");
     return {
       success: true,
+      data: data.data,
     };
   } catch (error) {
     return {

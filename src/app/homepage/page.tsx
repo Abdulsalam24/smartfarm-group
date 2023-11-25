@@ -1,29 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-
-import menuIcon from "../../assets/icons/bars-3.svg";
 import Image from "next/image";
 import sunCloud from "../../assets/icons/sun-cloud.svg";
-import closeIcon from "../../assets/img/close.svg";
 import emptyNote from "../../assets/icons/emptyState.svg";
 import plus from "../../assets/icons/plus.svg";
 import Link from "next/link";
 import dummy from "../../assets/img/dummy-pic.png";
 import houseIcon from "../../assets/img/houseIcon.svg";
 import profile from "../../assets/img/70.png";
-import successIcon from "../../assets/icons/success-icon.svg";
-
 import logo from "../../assets/icons/logo.svg";
-import { SwipeableDrawer } from "@mui/material";
 import SideBar from "@/components/sideBar";
 import PredictionHistory from "@/features/prediction-history";
 import { getLoginUser } from "@/utils/setUser";
@@ -33,9 +18,16 @@ import { getWeatherAction } from "@/stores/weather/action";
 import Modal from "@/components/ui/modal";
 import Button from "@/components/ui/Button";
 import CropPrediction from "@/components/ui/crop-predcition";
+import Loader from "@/components/ui/loader";
+import { useRouter } from "next/navigation";
+import { getProfileAction } from "@/stores/auth/action";
 
+import { CiLogout } from "react-icons/ci";
+import { Skeleton } from "@mui/material";
 const HomePage = () => {
   const tracking = false;
+
+  const router = useRouter();
 
   const tracksList = [
     {
@@ -90,14 +82,9 @@ const HomePage = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    // setLoading(true);
-    setIsOpen(true);
-  };
-
-  const [userInfo, setUserInfo] = useState("");
+  const [weatherLoading, setWeatherLoading] = useState(true);
+  const [loading, setloading] = useState(true);
 
   const [mobile, setMobile] = useState({
     right: false,
@@ -118,28 +105,75 @@ const HomePage = () => {
       setMobile({ ...mobile, [anchor]: open });
     };
 
+  const handleSubmit = () => {
+    // setWeatherLoading(true);
+    setIsOpen(true);
+  };
+
   useEffect(() => {
+    const token = getCookie("token");
+  }, []);
+
+  const [userInfo, setUserInfo] = useState("");
+  const [weather, setWeather] = useState<any>({});
+
+  useEffect(() => {
+    setWeatherLoading(true);
+    setloading(true);
     const userDetails = JSON.parse(getCookie("user")!);
     setUserInfo(userDetails);
 
-    const getPrediction = async () => {
-      const res = await getPredictionAction();
-      console.log(res, "res");
+    const getPredictionAndWeather = async () => {
+      const profile = await getProfileAction();
+
+      if (profile.success) {
+        const location = profile.data.location;
+        const weather = await getWeatherAction(location);
+        if (weather.success) {
+          setWeatherLoading(false);
+          setWeather(weather.data);
+        }
+      } else {
+        return router.push(profile.redirect);
+      }
     };
-
-    const getWeather = async () => {
-      const res = await getWeatherAction("Nigeria");
-      console.log(res, "res");
-    };
-
-    getWeather();
-
-    getPrediction();
+    setloading(false);
+    getPredictionAndWeather();
   }, []);
 
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const today = new Date();
+
+  const day = today.getDate();
+  const month = today.toLocaleString("default", { month: "long" });
+  const year = today.getFullYear();
+
+  const suffix = (day: any) => {
+    if (day >= 11 && day <= 13) {
+      return "th";
+    }
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  const todayDate = `${day}${suffix(day)} ${month} ${year}`;
+
+  const temperatureInCelsius = (weather?.main?.temp - 273.15).toFixed(0);
+
+  const location = weather?.sys?.country;
+
+  const description = weather?.weather ? weather?.weather[0]?.description : "";
 
   return (
     <section className="pb-[70px] md:pb-5 wrapper home-page">
@@ -160,19 +194,39 @@ const HomePage = () => {
       <p className="md:hidden mt-8 ml-6">Welcome {userInfo},</p>
       <div className="md:hidden px-5">
         <div className="md:hidden max-w-[380px] mx-auto flex justify-between items-start text-white p-4 py-6 sm-400:px-[25px] rounded-[20px] bg-[#EC7621] mt-6 mb-[45px]">
-          <div>
-            <p className="text-white">21st November 2023</p>
-            <p className="text-white">Lagos</p>
-          </div>
-          <div className="flex">
-            <div className="mt-4">
-              <Image src={sunCloud} alt="sunCloud" />
-            </div>
-            <div>
-              <h2 className="text-[36px] leading-[20px]">26°</h2>
-              <span>Mostly Cloudy</span>
-            </div>
-          </div>
+          {weatherLoading ? (
+            <>
+              <Skeleton
+                variant="text"
+                className="h-[70px] w-[92.55px] bg-[#eee6f2a0]"
+              />
+
+              <div className="flex">
+                <Skeleton
+                  variant="text"
+                  className="h-[70px] w-[92.55px] bg-[#eee6f2a0]"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <p className="text-white">{todayDate}</p>
+                <p className="text-white">{location}</p>
+              </div>
+              <div className="flex">
+                <div className="mt-4">
+                  <Image src={sunCloud} alt="sunCloud" />
+                </div>
+                <div>
+                  <h2 className="text-[36px] leading-[20px]">
+                    {temperatureInCelsius}°
+                  </h2>
+                  <span>{description}</span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="md:hidden">
@@ -203,12 +257,12 @@ const HomePage = () => {
           <div className="px-5">
             <div className="flex items-center justify-between">
               <h3>Crop Tracking</h3>
-              <p
+              {/* <p
                 className="text-[#35BF4A] cursor-pointer"
                 onClick={() => setIsOpen(true)}
               >
                 + new prediction
-              </p>
+              </p> */}
             </div>
             <div>
               {tracksList.map((track, i) => (
@@ -242,10 +296,20 @@ const HomePage = () => {
       <div className="hidden md:flex">
         <div className="w-[25%] z-[40px] px-5 shadow-md min-h-screen">
           <Image src={logo} alt="logo" />
-          <ul>
-            <li className="flex mt-[65px] items-center gap-6 p-2">
+          <ul className=" mt-[65px]">
+            <li className="flex items-center gap-6 p-2">
               <Image src={houseIcon} alt="houseicon" width={24} height={24} />
               <span>Dashboard</span>
+            </li>
+            <li
+              onClick={() => {
+                localStorage.clear();
+                router.push("/");
+              }}
+              className="flex cursor-pointer mt-[20px] items-center gap-6 p-2"
+            >
+              <CiLogout fill="#EF4444" className="w-[24px] h-[24px]" />
+              <span className="text-red-500">Logout</span>
             </li>
           </ul>
         </div>
@@ -258,27 +322,43 @@ const HomePage = () => {
           </div>
           <div className="pt-5 pl-6 flex gap-5">
             <div className="w-[65%]">
-              <div className="flex justify-between items-start text-white p-4 py-6 sm-400:px-[25px] rounded-[20px] bg-[#EC7621] mb-[45px] w-full shadow-md">
-                <div>
-                  <p className="text-white text-[18px]">21st November 2023</p>
-                  <p className="text-white mt-2 text-[18px]">Lagos</p>
-                </div>
-                <div className="flex gap-[30px]">
-                  <div className="mt-4">
-                    <Image
-                      className="md:w-[193px]"
-                      src={sunCloud}
-                      alt="sunCloud"
+              {weatherLoading ? (
+                <>
+                  <Skeleton
+                    variant="text"
+                    className="h-[70px] w-[92.55px] bg-[#eee6f2a0]"
+                  />
+
+                  <div className="flex">
+                    <Skeleton
+                      variant="text"
+                      className="h-[70px] w-[92.55px] bg-[#eee6f2a0]"
                     />
                   </div>
+                </>
+              ) : (
+                <div className="flex justify-between items-start text-white p-4 py-6 sm-400:px-[25px] rounded-[20px] bg-[#EC7621] mb-[45px] w-full shadow-md">
                   <div>
-                    <h2 className="text-[36px] leading-[20px] md:leading-[50px] md:text-[60px]">
-                      26°
-                    </h2>
-                    <span className="md:text-base">Mostly Cloudy</span>
+                    <p className="text-white text-[18px]">{todayDate}</p>
+                    <p className="text-white mt-2 text-[18px]">{location}</p>
+                  </div>
+                  <div className="flex gap-[30px]">
+                    <div className="mt-4">
+                      <Image
+                        className="md:w-[193px]"
+                        src={sunCloud}
+                        alt="sunCloud"
+                      />
+                    </div>
+                    <div>
+                      <h2 className="text-[36px] leading-[20px] md:leading-[50px] md:text-[60px]">
+                        {temperatureInCelsius}°
+                      </h2>
+                      <span className="md:text-base">{description}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
               <div>
                 {tracking ? (
                   <div className="px-5">
@@ -354,14 +434,10 @@ const HomePage = () => {
               </div>
             </div>
 
-            <div className="w-[30%] min-h-screen shadow-md p-5">
-              <div className="flex flex-col ">
+            <div className=" w-[30%] max-h-screen overflow-scroll rounded-lg shadow-md p-5">
+              <div className="flex flex-col">
                 <h2 className="text-base">Prediction History</h2>
-                {/* <div className="text-center mt-40 self-center ">
-                  <Image src={emptyNote} alt="emptyNote" />
-                  <p>No history on prediction</p>
-                </div> */}
-                <PredictionHistory />
+                {weatherLoading ? <Loader /> : <PredictionHistory />}
               </div>
             </div>
           </div>

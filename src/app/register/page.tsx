@@ -97,14 +97,17 @@ const Register = () => {
             acceptNumber={acceptNumber}
             value={formdata.phoneNo}
           />
+          
           <TextInput
-            label="Location"
-            placeholder="Location"
-            type="text"
-            name="location"
             onChange={onChange}
+            label="Location"
+            placeholder="Nigeria"
+            type="select"
+            name="location"
+            options={["Nigeria", "South Africa", "Kenya", "Sudan"]}
             value={formdata.location}
           />
+
           <TextInput
             label="Password"
             name="password"

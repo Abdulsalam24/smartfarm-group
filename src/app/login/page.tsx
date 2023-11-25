@@ -41,6 +41,7 @@ const Login = () => {
 
   useEffect(() => {
     removeCookie("token");
+    removeCookie("user");
   }, []);
 
   return (

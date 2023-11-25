@@ -94,6 +94,19 @@ input {
   outline: none;
 }
 
+::-webkit-scrollbar {
+  overflow: hidden;
+  display: none;
+}
+
+
+.loader-overlay {
+  border-radius: 15px;
+  background: #00682a33;
+  backdrop-filter: blur(20px);
+}
+
+
 .sign-up-overlay {
   border-radius: 15px;
   background: rgba(0, 104, 42, 0.2);
@@ -148,6 +161,7 @@ nav p {
   justify-content: center;
   align-items: center;
   z-index: 60;
+
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(5px);
 }
@@ -164,7 +178,7 @@ nav p {
   min-width: 300px;
   margin: auto;
   width: 100%;
-  /* @apply max-w-[363px] md:max-w-[605px]; */
+  @apply max-w-[363px] md:max-w-[605px];
 }
 
 /* VERTICAL / DEFAULT */
