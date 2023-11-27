@@ -38,7 +38,7 @@ const resetPasswordApi = async (resetPasswordInfo: any): Promise<any> => {
 
 
 const verfiyOtpApi = async (otp: any): Promise<any> => {
-  const url = new URL(`${BASE_URL}/auth/verify-otp`);
+  const url = new URL(`${BASE_URL}/auth/verify-OTP`);
   const res = client.post(url.toString(), otp);
   return res;
 };

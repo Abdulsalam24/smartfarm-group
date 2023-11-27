@@ -13,7 +13,10 @@ import SideBar from "@/components/sideBar";
 import PredictionHistory from "@/features/prediction-history";
 import { getLoginUser } from "@/utils/setUser";
 import { getCookie } from "typescript-cookie";
-import { getPredictionAction } from "@/stores/prediction/action";
+import {
+  getCropTrackingAction,
+  getPredictionAction,
+} from "@/stores/prediction/action";
 import { getWeatherAction } from "@/stores/weather/action";
 import Modal from "@/components/ui/modal";
 import Button from "@/components/ui/Button";
@@ -24,6 +27,7 @@ import { getProfileAction } from "@/stores/auth/action";
 
 import { CiLogout } from "react-icons/ci";
 import { Skeleton } from "@mui/material";
+import PlantTracking from "@/features/plant-tracking";
 const HomePage = () => {
   const tracking = false;
 
@@ -82,9 +86,15 @@ const HomePage = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [plantModal, setPlantModal] = useState(false);
   const [weatherLoading, setWeatherLoading] = useState(true);
+  const [cropTracking, setCropTracking] = useState<any>([]);
+
+  const [cropTrackingCheck, setCropTrackingCheck] = useState<any>([]);
+
   const [loading, setloading] = useState(true);
+
+  const [trackingLoader, setTrackingLoader] = useState(true);
 
   const [mobile, setMobile] = useState({
     right: false,
@@ -105,41 +115,41 @@ const HomePage = () => {
       setMobile({ ...mobile, [anchor]: open });
     };
 
-  const handleSubmit = () => {
-    // setWeatherLoading(true);
-    setIsOpen(true);
-  };
-
-  useEffect(() => {
-    const token = getCookie("token");
-  }, []);
-
   const [userInfo, setUserInfo] = useState("");
   const [weather, setWeather] = useState<any>({});
 
   useEffect(() => {
-    setWeatherLoading(true);
-    setloading(true);
     const userDetails = JSON.parse(getCookie("user")!);
     setUserInfo(userDetails);
-
-    const getPredictionAndWeather = async () => {
+    const getWeather = async () => {
       const profile = await getProfileAction();
-
       if (profile.success) {
         const location = profile.data.location;
         const weather = await getWeatherAction(location);
+
         if (weather.success) {
-          setWeatherLoading(false);
           setWeather(weather.data);
         }
+        setWeatherLoading(false);
       } else {
         return router.push(profile.redirect);
       }
     };
-    setloading(false);
-    getPredictionAndWeather();
+    getWeather();
   }, []);
+
+  useEffect(() => {
+    const getPrediction = async () => {
+      setTrackingLoader(true);
+      const cropTracking = await getCropTrackingAction();
+      if (cropTracking.success) {
+        setCropTracking(cropTracking.data);
+        setTrackingLoader(false);
+      }
+      setTrackingLoader(false);
+    };
+    getPrediction();
+  }, [cropTrackingCheck]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -229,6 +239,7 @@ const HomePage = () => {
           )}
         </div>
       </div>
+      {/* // mobile */}
       <div className="md:hidden">
         {tracking ? (
           <div className="px-5">
@@ -257,47 +268,55 @@ const HomePage = () => {
           <div className="px-5">
             <div className="flex items-center justify-between">
               <h3>Crop Tracking</h3>
-              {/* <p
+              <p
                 className="text-[#35BF4A] cursor-pointer"
-                onClick={() => setIsOpen(true)}
+                onClick={() => setPlantModal(true)}
               >
-                + new prediction
-              </p> */}
+                + New plant tracking
+              </p>
             </div>
             <div>
-              {tracksList.map((track, i) => (
-                <div
-                  key={i}
-                  className="track-item  flex mt-8 p-4 gap-[10px] items-center justify-between"
-                >
-                  <div>
-                    <Image src={track.src} alt="track" />
-                  </div>
-                  <div className="grow">
-                    <h4 className="font-bold">{track.title}</h4>
-                    <p>Plant date - {track.title}</p>
-                    <p>Harvest date - {track.title}</p>
-                  </div>
+              {trackingLoader ? (
+                <p>loading</p>
+              ) : cropTracking.length > 1 ? (
+                cropTracking?.map((track: any) => (
                   <div
-                    className={`px-2 py-1 rounded-2xl ${
-                      track.status === "ongoing"
-                        ? "bg-[#ECFDF3] text-[#027A48]"
-                        : "bg-[#FFF4ED] text-[#B93815]"
-                    }`}
+                    key={track.id}
+                    className="track-item  flex mt-8 p-4 gap-[10px] items-center justify-between"
                   >
-                    <h5 className="font-medium">{track.status}</h5>
+                    <div className="grow">
+                      <h4 className="font-bold">Crop type - {track.crop}</h4>
+                      <p>Plant date - {track.plantedSzn}</p>
+                      <p>Harvest date - {track.harvestSzn}</p>
+                    </div>
+                    <div
+                      className={`px-2 py-1 rounded-2xl ${
+                        track.status === "ONGOING"
+                          ? "bg-[#ECFDF3] text-[#027A48]"
+                          : "bg-[#FFF4ED] text-[#B93815]"
+                      }`}
+                    >
+                      <h5 className="font-medium">{track.status}</h5>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="min-h-screen m-10 text-center mx-auto flex flex-col items-center ">
+                  <Image src={emptyNote} alt="emptyNote" />
+                  <p>No history on prediction</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
       </div>
+      {/* // desktop */}
+
       <div className="hidden md:flex">
-        <div className="w-[25%] z-[40px] px-5 shadow-md min-h-screen">
+        <div className="w-[25%] z-[40px] shadow-md">
           <Image src={logo} alt="logo" />
-          <ul className=" mt-[65px]">
-            <li className="flex items-center gap-6 p-2">
+          <ul className="min-h-screen mt-[65px]">
+            <li className="flex cursor-pointer mt-[20px] pl-4 items-center gap-6 py-4 hover:bg-[#ebe8e8]">
               <Image src={houseIcon} alt="houseicon" width={24} height={24} />
               <span>Dashboard</span>
             </li>
@@ -306,7 +325,7 @@ const HomePage = () => {
                 localStorage.clear();
                 router.push("/");
               }}
-              className="flex cursor-pointer mt-[20px] items-center gap-6 p-2"
+              className="flex cursor-pointer pl-4 items-center gap-6 py-4 hover:bg-[#ebe8e8]"
             >
               <CiLogout fill="#EF4444" className="w-[24px] h-[24px]" />
               <span className="text-red-500">Logout</span>
@@ -321,14 +340,13 @@ const HomePage = () => {
             </div>
           </div>
           <div className="pt-5 pl-6 flex gap-5">
-            <div className="w-[65%]">
+            <div className="w-[63%]">
               {weatherLoading ? (
                 <>
                   <Skeleton
                     variant="text"
                     className="h-[70px] w-[92.55px] bg-[#eee6f2a0]"
                   />
-
                   <div className="flex">
                     <Skeleton
                       variant="text"
@@ -389,9 +407,9 @@ const HomePage = () => {
                       <h3>Crop Tracking</h3>
                       <p
                         className="text-[#35BF4A] cursor-pointer"
-                        onClick={() => setIsOpen(true)}
+                        onClick={() => setPlantModal(true)}
                       >
-                        + new prediction
+                        + New plant tracking
                       </p>
                     </div>
                     <div className="mt-5">
@@ -402,31 +420,35 @@ const HomePage = () => {
                           <p>Harvest Season</p>
                           <p>Status</p>
                         </div>
-                        <div className="min-h-screen m-10 text-center mx-auto flex flex-col items-center ">
-                          <Image src={emptyNote} alt="emptyNote" />
-                          <p>No history on prediction</p>
-                        </div>
-                        {/* {tracksList.map((track, i) => (
-                          <div
-                            key={i}
-                            className="table-paginate-row border border-[#8C8C8C] border-t-0 border-x-0 flex w-full justify-between items-center"
-                          >
-                            <p>Rice</p>
-                            <p>Spring</p>
-                            <p>Rainy</p>
-                            <p>
-                              <span
-                                className={` text-xs font-medium px-2 py-1 rounded-2xl ${
-                                  track.status === "ongoing"
-                                    ? "bg-[#ECFDF3] text-[#027A48]"
-                                    : "bg-[#FFF4ED] text-[#B93815]"
-                                }`}
-                              >
-                                ongoing
-                              </span>
-                            </p>
+
+                        {cropTracking.length > 1 ? (
+                          cropTracking?.map((track: any) => (
+                            <div
+                              key={track.id}
+                              className="table-paginate-row border border-[#8C8C8C] border-t-0 border-x-0 flex w-full justify-between items-center"
+                            >
+                              <p>{track.crop}</p>
+                              <p>{track.plantedSzn}</p>
+                              <p>{track.harvestSzn}</p>
+                              <p>
+                                <span
+                                  className={` text-xs font-medium px-2 py-1 rounded-2xl ${
+                                    track.status === "ONGOING"
+                                      ? "bg-[#ECFDF3] text-[#027A48]"
+                                      : "bg-[#FFF4ED] text-[#B93815]"
+                                  }`}
+                                >
+                                  ongoing
+                                </span>
+                              </p>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="min-h-screen m-10 text-center mx-auto flex flex-col items-center ">
+                            <Image src={emptyNote} alt="emptyNote" />
+                            <p>No history on prediction</p>
                           </div>
-                        ))} */}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -434,10 +456,18 @@ const HomePage = () => {
               </div>
             </div>
 
-            <div className=" w-[30%] max-h-screen overflow-scroll rounded-lg shadow-md p-5">
+            <div className=" w-[35%] max-h-screen overflow-scroll rounded-lg shadow-md p-5">
               <div className="flex flex-col">
-                <h2 className="text-base">Prediction History</h2>
-                {weatherLoading ? <Loader /> : <PredictionHistory />}
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base">Prediction History</h3>
+                  <p
+                    className="text-xs text-[#35BF4A] cursor-pointer"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    + New prediction
+                  </p>
+                </div>
+                <PredictionHistory />
               </div>
             </div>
           </div>
@@ -448,6 +478,13 @@ const HomePage = () => {
           <CropPrediction handleClose={handleClose} />
         </div>
       </Modal>
+
+      <PlantTracking
+        plantModal={plantModal}
+        setCropTrackingCheck={setCropTrackingCheck}
+        handleClose={() => setPlantModal(false)}
+        handleOpen={() => setPlantModal(true)}
+      />
     </section>
   );
 };

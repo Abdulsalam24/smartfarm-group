@@ -45,29 +45,31 @@ const ForgotPassword = () => {
             Enter the phone number associated with this account
           </p>
         </div>
-        <div className="mt-[78px] flex flex-col gap-[30px]">
-          <TextInput
-            onChange={(e) => setForgotPasswordInfo(e.target.value)}
-            label="Email"
-            acceptNumber={acceptNumber}
-            placeholder="Enter email"
-            type="email"
-            value={forgotPasswordInfo}
-          />
-        </div>
-        <div className="mt-[104px]">
-          <Button
-            specialCheck={forgotPasswordInfo.length < 5}
-            loading={loading}
-            padding="p-[15.5px]"
-            rounded="rounded-[24px]"
-            color="text-white"
-            bgColor="bg-green-100"
-            btnStyle="w-full"
-            onClick={handleSubmit}
-            text="Submit"
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mt-[78px] flex flex-col gap-[30px]">
+            <TextInput
+              onChange={(e) => setForgotPasswordInfo(e.target.value)}
+              label="Email"
+              acceptNumber={acceptNumber}
+              placeholder="Enter email"
+              type="email"
+              value={forgotPasswordInfo}
+            />
+          </div>
+          <div className="mt-[104px]">
+            <Button
+              specialCheck={forgotPasswordInfo.length < 5}
+              loading={loading}
+              padding="p-[15.5px]"
+              rounded="rounded-[24px]"
+              color="text-white"
+              bgColor="bg-green-100"
+              btnStyle="w-full"
+              onClick={handleSubmit}
+              text="Submit"
+            />
+          </div>
+        </form>
       </div>
     </AuthLayout>
   );

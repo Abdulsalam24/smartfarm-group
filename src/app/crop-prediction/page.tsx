@@ -20,12 +20,7 @@ const CropPrediction = ({ handleClose }: any) => {
   const [loading, setLoading] = useState(false);
 
   const [predictionResult, setPredictionResult] = useState(false);
-
-  // const handleSubmit = () => {
-  //   // setLoading(true);
-  //   setIsOpen(true);
-  // };
-
+  
   const [prediction, setPrediction] = useState<any>({});
 
   const [predictionData, setPredictionData] = useState({
@@ -174,7 +169,7 @@ const CropPrediction = ({ handleClose }: any) => {
 
               <div className="flex flex-col items-center">
                 <Button
-                  text="Proceed to Plant"
+                  text="Save for harvest"
                   btnStyle="px-4 py-2"
                   color="text-white"
                   bgColor="bg-[#225C2B]"

@@ -9,6 +9,8 @@ import failedIcon from "../../assets/icons/failed-icon.svg";
 import Button from "@/components/ui/Button";
 import { getPredictionAction } from "@/stores/prediction/action";
 import Loader from "@/components/ui/loader";
+import emptyNote from "../../assets/icons/emptyState.svg";
+import { DateConverter } from "@/helpers/dateConverter";
 
 const PredictionHistory = () => {
   const router = useRouter();
@@ -20,22 +22,20 @@ const PredictionHistory = () => {
   const [singlePrediction, setSinglePrediction] = useState<any>({});
 
   useEffect(() => {
-    const getPredictionAndWeather = async () => {
+    const getPredictions = async () => {
       const predictions = await getPredictionAction();
       if (predictions.success) {
         setPredictions(predictions.data);
       }
+      setLoading(false);
     };
-    getPredictionAndWeather();
-    setLoading(false);
+    getPredictions();
   }, []);
 
   const historyCheck = {
     isDfault: true,
     predict: true,
   };
-
-  console.log(singlePrediction, "singlePrediction");
 
   const handleOpenPrediction = (id: number) => {
     const filteredPrediction = predictions.filter(
@@ -59,14 +59,17 @@ const PredictionHistory = () => {
       <div className="flex flex-col gap-8 mt-[41px] mb-[64px]">
         {loading ? (
           <Loader />
-        ) : (
+        ) : predictions.length > 1 ? (
           predictions?.map((item: any, i: number) => (
             <div
               key={i}
               className="pb-3 flex border border-x-0 border-t-0 justify-between items-end"
             >
               <div>
-                <span>21 , jan 20023</span> <br />
+                <span className="capitalize">
+                  {<DateConverter timestamp={item.createdAt} />}
+                </span>{" "}
+                <br />
                 <span className="mt-4">{item.prediction}</span>
               </div>
               <span
@@ -77,14 +80,13 @@ const PredictionHistory = () => {
               </span>
             </div>
           ))
+        ) : (
+          <div className="text-center mt-40 self-center ">
+            <Image src={emptyNote} alt="emptyNote" />
+            <p>No history on prediction</p>
+          </div>
         )}
       </div>
-
-      {/* 
-      <div className="text-center mt-40 self-center ">
-        <Image src={emptyNote} alt="emptyNote" />
-        <p>No history on prediction</p>
-      </div> */}
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div

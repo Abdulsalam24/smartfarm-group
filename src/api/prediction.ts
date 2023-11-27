@@ -8,6 +8,18 @@ const getPredictionApi = async (): Promise<any> => {
   return res;
 };
 
+const cropTrackingApi = async (plantTracking: any): Promise<any> => {
+  const url = new URL(`${BASE_URL}/plant`);
+  const res = client.post(url.toString(), plantTracking);
+  return res;
+};
+
+const getCropTrackingApi = async (): Promise<any> => {
+  const url = new URL(`${BASE_URL}/plant`);
+  const res = client.get(url.toString());
+  return res;
+};
+
 const getYieldPredictionApi = async ({
   ph,
   location,
@@ -25,4 +37,9 @@ const getYieldPredictionApi = async ({
   return res;
 };
 
-export { getPredictionApi, getYieldPredictionApi };
+export {
+  getPredictionApi,
+  getYieldPredictionApi,
+  getCropTrackingApi,
+  cropTrackingApi,
+};

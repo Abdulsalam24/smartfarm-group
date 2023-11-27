@@ -72,22 +72,29 @@ const ConfirmOtp = () => {
           <h2>Enter 4 digit code</h2>
           <p className="mt-1">A code has been sent to your inbox</p>
         </div>
-        <div className="mt-[92px]">
-          <OtpInput
-            handleChange={handleChange}
-            otp={otp}
-            setOTP={setOTP}
-            inputRefs={inputRefs}
-          />
-        </div>
-        <div className="mt-[87px]">
-          <button
-            className="bg-[#225C2B] text-white text-[16px] rounded-[24px] p-[13px] w-full"
-            onClick={handleSubmit}
-          >
-            Proceed
-          </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mt-[92px]">
+            <OtpInput
+              handleChange={handleChange}
+              otp={otp}
+              setOTP={setOTP}
+              inputRefs={inputRefs}
+            />
+          </div>
+          <div className="mt-[87px]">
+            <Button
+              specialCheck={otp.length < 4}
+              loading={loading}
+              padding="p-[15.5px]"
+              rounded="rounded-[24px]"
+              color="text-white"
+              bgColor="bg-green-100"
+              btnStyle="w-full"
+              onClick={handleSubmit}
+              text="Proceed"
+            />
+          </div>
+        </form>
         <p className="text-center mt-[26px]">
           Didn’t receive a code? <span className="text-[#EB6200]">Resend</span>
         </p>

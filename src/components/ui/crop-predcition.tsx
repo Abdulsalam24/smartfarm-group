@@ -13,15 +13,21 @@ import closeIcon from "../../assets/img/x-mark.svg";
 
 import Button from "@/components/ui/Button";
 import { getYieldPredictionAction } from "@/stores/prediction/action";
+import { useRecoilState } from "recoil";
+import { predictionCheck } from "@/stores/prediction/atom";
 
 const CropPrediction = ({ handleClose }: any) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  const [predictionHistoryCheck, setPredictionHistoryCheck] =
+    useRecoilState(predictionCheck);
+
   const [loading, setLoading] = useState(false);
 
   const [predictionResult, setPredictionResult] = useState(false);
 
-  const [prediction, setPrediction] = useState<any>([]);
+  const [prediction, setPrediction] = useState<any>({});
 
   // const handleSubmit = () => {
   //   // setLoading(true);
@@ -35,9 +41,10 @@ const CropPrediction = ({ handleClose }: any) => {
     water_availability: "",
   });
 
+  // cropTrackingAction
+
   const onChange = (e: any) => {
     const { name, value } = e.target;
-    console.log(e, "valueeeeeeee");
     setPredictionData({
       ...predictionData,
       [name]: value,
@@ -52,7 +59,6 @@ const CropPrediction = ({ handleClose }: any) => {
       setPrediction(res.data);
       setPredictionResult(true);
       setLoading(false);
-      
     } else {
       router.push(res.redirect);
     }
@@ -98,13 +104,16 @@ const CropPrediction = ({ handleClose }: any) => {
 
           <div className="flex flex-col items-center">
             <Button
-              text="Proceed to Plant"
+              text="Save for harvest"
               btnStyle="px-4 py-2"
               color="text-white"
               bgColor="bg-[#225C2B]"
               padding=""
               loading={loading}
-              onClick={() => setPredictionResult(false)}
+              onClick={() => {
+                setPredictionHistoryCheck((prev) => !prev);
+                handleClose()
+              }}
             />
             <p
               onClick={handleClose}

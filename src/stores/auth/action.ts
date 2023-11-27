@@ -3,6 +3,7 @@ import {
   getProfileApi,
   loginApi,
   registerApi,
+  resetPasswordApi,
   verfiyOtpApi,
 } from "@/api/auth";
 import { toaster } from "@/helpers/handle-toast";
