@@ -63,7 +63,7 @@ const ConfirmOtp = () => {
     <AuthLayout>
       <div className="w-full">
         <div
-          className="mt-5 w-fit"
+          className="mt-5 w-fit cursor-pointer cursor-pointer"
           onClick={() => router.push("/forgot-password")}
         >
           <Image src={backIcon} alt="backIcon" />

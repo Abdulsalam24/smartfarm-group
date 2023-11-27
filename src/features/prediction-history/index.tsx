@@ -55,7 +55,7 @@ const PredictionHistory = () => {
   return (
     <section className="history relative px-6 pt-5 pb-40 md:px-0 md:p-0">
       <div
-        className="mb-5 md:hidden w-fit"
+        className="mb-5 md:hidden w-fit cursor-pointer"
         onClick={() => router.push("/homepage")}
       >
         <Image src={backIcon} alt="backIcon" />

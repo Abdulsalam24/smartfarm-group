@@ -45,7 +45,10 @@ const Register = () => {
 
   return (
     <AuthLayout>
-      <div className="mt-5 md:hidden w-fit" onClick={() => router.push("/")}>
+      <div
+        className="mt-5 md:hidden w-fit cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Image src={backIcon} alt="backIcon" />
       </div>
       <div className="w-full">
@@ -97,7 +100,7 @@ const Register = () => {
             acceptNumber={acceptNumber}
             value={formdata.phoneNo}
           />
-          
+
           <TextInput
             onChange={onChange}
             label="Location"

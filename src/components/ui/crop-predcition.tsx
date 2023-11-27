@@ -76,7 +76,7 @@ const CropPrediction = ({ handleClose }: any) => {
       }}
     >
       <div
-        className="mb-5 w-fit md:ml-auto"
+        className="mb-5 w-fit cursor-pointer md:ml-auto"
         onClick={() => router.push("/homepage")}
       >
         <Image className="md:hidden" src={backIcon} alt="backIcon" />

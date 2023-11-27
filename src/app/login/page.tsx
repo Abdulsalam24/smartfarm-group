@@ -46,7 +46,10 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="mt-5 md:hidden w-fit" onClick={() => router.push("/")}>
+      <div
+        className="mt-5 md:hidden w-fit cursor-pointer cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Image src={backIcon} alt="backIcon" />
       </div>
       <div className="w-full">
@@ -76,7 +79,7 @@ const Login = () => {
           />
         </div>
         <div className="mt-4 text-right">
-          <div className="ml-auto w-fit">
+          <div className="ml-auto w-fit cursor-pointer">
             <Link href="/forgot-password">
               <p className="text-[#FF832B] md:text-base">Forgot password?</p>
             </Link>

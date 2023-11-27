@@ -40,8 +40,8 @@ const ResetPassword = () => {
   return (
     <AuthLayout>
       <div className="w-full">
-        <div className="w-fit">
-          <Link href="/login" className="w-fit ">
+        <div className="w-fit cursor-pointer">
+          <Link href="/login" className="w-fit cursor-pointer ">
             <Image src={backIcon} alt="backIcon" />
           </Link>
         </div>

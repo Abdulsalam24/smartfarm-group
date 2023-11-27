@@ -61,7 +61,7 @@ const CropPrediction = ({ handleClose }: any) => {
   return (
     <section className="relative px-6 pt-5 pb-40 md:p-0">
       <div
-        className="mb-5 w-fit md:ml-auto"
+        className="mb-5 w-fit cursor-pointer md:ml-auto"
         onClick={() => router.push("/homepage")}
       >
         <Image className="md:hidden" src={backIcon} alt="backIcon" />
@@ -139,7 +139,7 @@ const CropPrediction = ({ handleClose }: any) => {
           rounded="rounded-[18px]"
           color="text-white"
           bgColor="bg-green-100"
-          btnStyle="w-fit mx-auto py-2 px-4"
+          btnStyle="w-fit cursor-pointer mx-auto py-2 px-4"
           onClick={handleSubmit}
           text=" Analyze Data"
           info={predictionData}
