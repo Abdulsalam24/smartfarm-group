@@ -126,7 +126,7 @@ const DesktopHomepage = ({
                       <p>Harvest Season</p>
                       <p>Status</p>
                     </div>
-                    <div className="max-h-screen overflow-scroll">
+                    <div className="w-full max-h-screen overflow-scroll">
                       {trackingLoader ? (
                         Array.from({ length: 6 }).map((_: any, i) => (
                           <div
@@ -184,10 +184,10 @@ const DesktopHomepage = ({
                           </div>
                         ))
                       ) : (
-                        <div className="px-5">
-                          <h3>Crop Prediction</h3>
+                        <div className="w-full flex justify-center items-center p-5">
+                          {/* <h3>Crop Prediction</h3> */}
                           <div>
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col justify-center items-center">
                               <Image src={emptyNote} alt="emptyNote" />
                               <div className="mt-4 mb-[52px] text-center">
                                 <h3 className="text-[18px]">No prediction</h3>
