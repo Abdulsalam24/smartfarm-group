@@ -63,7 +63,7 @@ const ConfirmOtp = () => {
     <AuthLayout>
       <div className="w-full">
         <div
-          className="mt-5 md:hidden w-fit"
+          className="mt-5 w-fit"
           onClick={() => router.push("/forgot-password")}
         >
           <Image src={backIcon} alt="backIcon" />
@@ -95,9 +95,9 @@ const ConfirmOtp = () => {
             />
           </div>
         </form>
-        <p className="text-center mt-[26px]">
+        {/* <p className="text-center mt-[26px]">
           Didn’t receive a code? <span className="text-[#EB6200]">Resend</span>
-        </p>
+        </p> */}
       </div>
     </AuthLayout>
   );

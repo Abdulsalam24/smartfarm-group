@@ -56,6 +56,7 @@ const CropPrediction = ({ handleClose }: any) => {
     e.preventDefault();
     const res = await getYieldPredictionAction(predictionData);
     if (res.success) {
+      setPredictionHistoryCheck(!predictionHistoryCheck);
       setPrediction(res.data);
       setPredictionResult(true);
       setLoading(false);
@@ -111,8 +112,7 @@ const CropPrediction = ({ handleClose }: any) => {
               padding=""
               loading={loading}
               onClick={() => {
-                setPredictionHistoryCheck((prev) => !prev);
-                handleClose()
+                handleClose();
               }}
             />
             <p

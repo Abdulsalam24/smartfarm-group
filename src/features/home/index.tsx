@@ -39,26 +39,19 @@ const Home = () => {
     {
       id: 2,
 
-      label: "What is SmartFarm",
-      text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
+      label: "How accurate are the predictions?",
+      text: "Our predictions are based on a combination of historical data, machine learning algorithms, and real-time weather updates. While we strive for accuracy, it's important to note that agricultural conditions can be influenced by various factors. We continuously refine our models based on user feedback and new data to improve accuracy",
     },
     {
       id: 3,
 
-      label: "What is SmartFarm",
-      text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
+      label: "Can I receive real-time updates on weather conditions?",
+      text: "Yes, Your Solution integrates real-time weather data to provide you with the latest information. You can also set up notifications and alerts based on changing weather conditions to stay informed.",
     },
     {
       id: 4,
-
-      label: "What is SmartFarm",
-      text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
-    },
-    {
-      id: 5,
-
-      label: "What is SmartFarm",
-      text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
+      label: "Is [Your Solution] suitable for my specific location?",
+      text: "Absolutely. Your Solution is customizable for different regions and takes into account local weather patterns and soil conditions. We work to provide localized recommendations to ensure relevance to your specific location.",
     },
   ];
 

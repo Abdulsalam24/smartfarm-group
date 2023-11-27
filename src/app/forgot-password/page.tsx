@@ -34,7 +34,7 @@ const ForgotPassword = () => {
     <AuthLayout>
       <div className="w-full">
         <div
-          className="mt-5 md:hidden w-fit"
+          className="mt-5 w-fit"
           onClick={() => router.push("/login")}
         >
           <Image src={backIcon} alt="backIcon" />

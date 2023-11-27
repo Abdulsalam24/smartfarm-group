@@ -99,13 +99,25 @@ input {
   display: none;
 }
 
-
 .loader-overlay {
-  border-radius: 15px;
-  background: #00682a33;
-  backdrop-filter: blur(20px);
+  /* border-radius: 20px;
+background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%),  lightgray 50% / cover no-repeat;
+  border-radius: 15px; */
+  /* background: #00682a33; */
+  /* backdrop-filter: blur(20px); */
 }
 
+.weather-skeleton1 {
+  height: 60px !important;
+}
+
+.weather-skeleton2 {
+  height: 74px !important;
+}
+
+.weather-skeleton3 {
+  height: 68px !important;
+}
 
 .sign-up-overlay {
   border-radius: 15px;

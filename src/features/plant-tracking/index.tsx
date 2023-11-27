@@ -20,6 +20,7 @@ const PlantTracking = ({
   handleClose,
   plantModal,
   setCropTrackingCheck,
+  cropTrackingCheck,
 }: any) => {
   const [loading, setLoading] = useState(false);
 
@@ -44,10 +45,12 @@ const PlantTracking = ({
     if (res.success) {
       setLoading(false);
       handleClose();
-      setCropTrackingCheck((prev: any) => !prev);
+      setCropTrackingCheck(!cropTrackingCheck);
     }
     setLoading(false);
   };
+
+  console.log(cropTrackingCheck, "cropTrackingCheck");
 
   return (
     <Modal isOpen={plantModal} onClose={handleClose}>
@@ -60,10 +63,10 @@ const PlantTracking = ({
         <div className="w-full max-w-[90%] md:max-w-[600px] py-6 md:py-10 md:px-10 px-5 mx-auto bg-white rounded-2xl">
           <div className="text-center">
             <h3 className="text-[18px] mb-[5px] md:text-[20px]">
-              Precise Farming
+              Plant tracking
             </h3>
             <h5 className="text-[#525252]">
-              Input data to get information on precise farming
+              Input data to get tracking a plant
             </h5>
           </div>
           <div className="flex flex-col gap-8 mt-[41px] mb-[30px]">

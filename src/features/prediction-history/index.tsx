@@ -11,6 +11,8 @@ import { getPredictionAction } from "@/stores/prediction/action";
 import Loader from "@/components/ui/loader";
 import emptyNote from "../../assets/icons/emptyState.svg";
 import { DateConverter } from "@/helpers/dateConverter";
+import { predictionCheck } from "@/stores/prediction/atom";
+import { useRecoilState } from "recoil";
 
 const PredictionHistory = () => {
   const router = useRouter();
@@ -18,9 +20,14 @@ const PredictionHistory = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const [predictionHistoryCheck, setPredictionHistoryCheck] =
+    useRecoilState(predictionCheck);
+
   const [predictions, setPredictions] = useState([]);
   const [singlePrediction, setSinglePrediction] = useState<any>({});
 
+  console.log(predictionHistoryCheck, ' setPredictionHistoryCheck')
+  
   useEffect(() => {
     const getPredictions = async () => {
       const predictions = await getPredictionAction();
@@ -30,7 +37,7 @@ const PredictionHistory = () => {
       setLoading(false);
     };
     getPredictions();
-  }, []);
+  }, [predictionHistoryCheck]);
 
   const historyCheck = {
     isDfault: true,

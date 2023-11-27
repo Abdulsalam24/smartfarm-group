@@ -13,6 +13,8 @@ import closeIcon from "../../assets/img/x-mark.svg";
 import Button from "@/components/ui/Button";
 import { getYieldPredictionAction } from "@/stores/prediction/action";
 import Loader from "@/components/ui/loader";
+import { predictionCheck } from "@/stores/prediction/atom";
+import { useRecoilState } from "recoil";
 
 const CropPrediction = ({ handleClose }: any) => {
   const router = useRouter();
@@ -20,7 +22,7 @@ const CropPrediction = ({ handleClose }: any) => {
   const [loading, setLoading] = useState(false);
 
   const [predictionResult, setPredictionResult] = useState(false);
-  
+
   const [prediction, setPrediction] = useState<any>({});
 
   const [predictionData, setPredictionData] = useState({
@@ -29,6 +31,8 @@ const CropPrediction = ({ handleClose }: any) => {
     label: "",
     water_availability: "",
   });
+  const [predictionHistoryCheck, setPredictionHistoryCheck] =
+    useRecoilState(predictionCheck);
 
   const onChange = (e: any) => {
     const { name, value } = e.target;
@@ -42,8 +46,8 @@ const CropPrediction = ({ handleClose }: any) => {
     setLoading(true);
     e.preventDefault();
     const res = await getYieldPredictionAction(predictionData);
-    console.log(res, "res");
     if (res.success) {
+      setPredictionHistoryCheck((prev) => !prev);
       setPrediction(res.data);
       setPredictionResult(true);
       setIsOpen(true);
@@ -174,7 +178,7 @@ const CropPrediction = ({ handleClose }: any) => {
                   color="text-white"
                   bgColor="bg-[#225C2B]"
                   padding=""
-                  onClick={() => router.push("/homepage")}
+                  onClick={() => router.push("/prediction-history")}
                 />
                 <p
                   onClick={() => setIsOpen(false)}

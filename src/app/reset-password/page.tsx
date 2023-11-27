@@ -28,9 +28,8 @@ const ResetPassword = () => {
   };
 
   const handleSubmit = async (e: any) => {
-    console.log(resetPasswordData, "resetPasswordData");
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     const res = await resetPasswordAction(resetPasswordData);
     if (res.success) {
       router.push("/login");
@@ -68,16 +67,24 @@ const ResetPassword = () => {
             name="farmerEmail"
           />
           <div className="mt-[62px]">
-            <Button
+            {/* <Button
               loading={loading}
               padding="p-[15.5px]"
               rounded="rounded-[24px]"
               color="text-white"
               bgColor="bg-green-100"
               btnStyle="w-full"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
               text="Submit"
-            />
+              info={resetPasswordData}
+            /> */}
+
+            <button
+              className="bg-green-100 text-white rounded-[24px] p-[13px] w-full"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>

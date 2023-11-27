@@ -13,9 +13,9 @@ export const DateConverter: React.FC<DateConverterProps> = ({ timestamp }) => {
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
-    if (dt >= today) {
+    if (isSameDay(dt, today)) {
       setFormattedDate("today");
-    } else if (dt >= yesterday) {
+    } else if (isSameDay(dt, yesterday)) {
       setFormattedDate("yesterday");
     } else {
       const options: any = { day: "numeric", month: "short", year: "numeric" };
@@ -23,6 +23,15 @@ export const DateConverter: React.FC<DateConverterProps> = ({ timestamp }) => {
       setFormattedDate(formatter.format(dt));
     }
   }, [timestamp]);
+
+  // Function to check if two dates are on the same day
+  const isSameDay = (date1: Date, date2: Date): boolean => {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
+  };
 
   return <span>{formattedDate}</span>;
 };
