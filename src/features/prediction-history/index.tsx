@@ -26,8 +26,8 @@ const PredictionHistory = () => {
   const [predictions, setPredictions] = useState([]);
   const [singlePrediction, setSinglePrediction] = useState<any>({});
 
-  console.log(predictionHistoryCheck, ' setPredictionHistoryCheck')
-  
+  console.log(predictionHistoryCheck, " setPredictionHistoryCheck");
+
   useEffect(() => {
     const getPredictions = async () => {
       const predictions = await getPredictionAction();
@@ -122,11 +122,7 @@ const PredictionHistory = () => {
 
               <div className="flex flex-col items-center">
                 <Button
-                  text={
-                    historyCheck.predict
-                      ? "Download Result"
-                      : "Proceed to Plant"
-                  }
+                  text={"Proceed to Plant"}
                   btnStyle="px-4 py-2"
                   color="text-white"
                   bgColor="bg-[#225C2B]"
