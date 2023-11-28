@@ -46,12 +46,12 @@ const Home = () => {
       id: 3,
 
       label: "Can I receive real-time updates on weather conditions?",
-      text: "Yes, Your Solution integrates real-time weather data to provide you with the latest information. You can also set up notifications and alerts based on changing weather conditions to stay informed.",
+      text: "Yes, smartfarm integrates real-time weather data to provide you with the latest information. You can also set up notifications and alerts based on changing weather conditions to stay informed.",
     },
     {
       id: 4,
-      label: "Is [Your Solution] suitable for my specific location?",
-      text: "Absolutely. Your Solution is customizable for different regions and takes into account local weather patterns and soil conditions. We work to provide localized recommendations to ensure relevance to your specific location.",
+      label: "Is smartfarm suitable for my specific location?",
+      text: "Absolutely. smartfarm is customizable for different regions and takes into account local weather patterns and soil conditions. We work to provide localized recommendations to ensure relevance to your specific location.",
     },
   ];
 
