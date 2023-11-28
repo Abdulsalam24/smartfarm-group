@@ -20,13 +20,13 @@ const Home = () => {
     },
     {
       src: carbonAnalytic,
-      label: "Improve Yieldsdd",
+      label: "Improve Yield",
       text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
     },
     {
       src: carbonAnalytic,
-      label: "Improve Yields",
-      text: "Data analytics and predictive modeling help farmers make informed decisions, optimizing planting times, crop varieties, and harvesting schedules for higher yields.",
+      label: "Risk Mitigation",
+      text: "By receiving timely updates on weather conditions, farmers can mitigate risks associated with adverse weather effects. This helps to reduce potential losses.",
     },
   ];
 
